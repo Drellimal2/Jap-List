@@ -12,6 +12,18 @@
 		357B8BB71FE2E04D00D2DEC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB51FE2E04D00D2DEC8 /* Main.storyboard */; };
 		357B8BB91FE2E04D00D2DEC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB81FE2E04D00D2DEC8 /* Assets.xcassets */; };
 		357B8BBC1FE2E04D00D2DEC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BBA1FE2E04D00D2DEC8 /* LaunchScreen.storyboard */; };
+		35CBBDE21FE820C200371B4B /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE11FE820C200371B4B /* MainTabController.swift */; };
+		35CBBDE41FE8226100371B4B /* MyDecksController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE31FE8226100371B4B /* MyDecksController.swift */; };
+		35CBBDE61FE8234200371B4B /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE51FE8234200371B4B /* DiscoverViewController.swift */; };
+		35CBBDE81FE8252500371B4B /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE71FE8252500371B4B /* AccountViewController.swift */; };
+		35CBBDEA1FE8495800371B4B /* NewDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE91FE8495800371B4B /* NewDeckViewController.swift */; };
+		35CBBDEC1FE8497F00371B4B /* NewCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDEB1FE8497F00371B4B /* NewCardViewController.swift */; };
+		35CBBDEE1FE84D5C00371B4B /* DeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDED1FE84D5C00371B4B /* DeckViewController.swift */; };
+		35CBBDF11FE84DFC00371B4B /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDEF1FE84DFC00371B4B /* Model.xcdatamodeld */; };
+		35CBBDF61FE8678300371B4B /* Card+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDF21FE8678300371B4B /* Card+CoreDataClass.swift */; };
+		35CBBDF71FE8678300371B4B /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDF31FE8678300371B4B /* Card+CoreDataProperties.swift */; };
+		35CBBDF81FE8678300371B4B /* Deck+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDF41FE8678300371B4B /* Deck+CoreDataClass.swift */; };
+		35CBBDF91FE8678300371B4B /* Deck+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDF51FE8678300371B4B /* Deck+CoreDataProperties.swift */; };
 		8CE8C585DC9A9410401BA812 /* Pods_JapList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E569E45AACEE6A8875905D23 /* Pods_JapList.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +35,18 @@
 		357B8BB81FE2E04D00D2DEC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		357B8BBB1FE2E04D00D2DEC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		357B8BBD1FE2E04D00D2DEC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35CBBDE11FE820C200371B4B /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
+		35CBBDE31FE8226100371B4B /* MyDecksController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDecksController.swift; sourceTree = "<group>"; };
+		35CBBDE51FE8234200371B4B /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
+		35CBBDE71FE8252500371B4B /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		35CBBDE91FE8495800371B4B /* NewDeckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDeckViewController.swift; sourceTree = "<group>"; };
+		35CBBDEB1FE8497F00371B4B /* NewCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCardViewController.swift; sourceTree = "<group>"; };
+		35CBBDED1FE84D5C00371B4B /* DeckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckViewController.swift; sourceTree = "<group>"; };
+		35CBBDF01FE84DFC00371B4B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		35CBBDF21FE8678300371B4B /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataClass.swift"; sourceTree = "<group>"; };
+		35CBBDF31FE8678300371B4B /* Card+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		35CBBDF41FE8678300371B4B /* Deck+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Deck+CoreDataClass.swift"; sourceTree = "<group>"; };
+		35CBBDF51FE8678300371B4B /* Deck+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Deck+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C00FC84113B775BB89C4FEA9 /* Pods-JapList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JapList.release.xcconfig"; path = "Pods/Target Support Files/Pods-JapList/Pods-JapList.release.xcconfig"; sourceTree = "<group>"; };
 		CCFB2619E1414A70C555B8FF /* Pods-JapList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JapList.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JapList/Pods-JapList.debug.xcconfig"; sourceTree = "<group>"; };
 		E569E45AACEE6A8875905D23 /* Pods_JapList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JapList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +85,10 @@
 		357B8BB01FE2E04D00D2DEC8 /* JapList */ = {
 			isa = PBXGroup;
 			children = (
+				35CBBDE01FE8203200371B4B /* Client */,
+				35CBBDDF1FE8202500371B4B /* Controllers */,
+				35CBBDDE1FE8201600371B4B /* View */,
+				35CBBDDD1FE8200A00371B4B /* Model */,
 				357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */,
 				357B8BB31FE2E04D00D2DEC8 /* ViewController.swift */,
 				357B8BB51FE2E04D00D2DEC8 /* Main.storyboard */,
@@ -69,6 +97,46 @@
 				357B8BBD1FE2E04D00D2DEC8 /* Info.plist */,
 			);
 			path = JapList;
+			sourceTree = "<group>";
+		};
+		35CBBDDD1FE8200A00371B4B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				35CBBDF21FE8678300371B4B /* Card+CoreDataClass.swift */,
+				35CBBDF31FE8678300371B4B /* Card+CoreDataProperties.swift */,
+				35CBBDF41FE8678300371B4B /* Deck+CoreDataClass.swift */,
+				35CBBDF51FE8678300371B4B /* Deck+CoreDataProperties.swift */,
+				35CBBDEF1FE84DFC00371B4B /* Model.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		35CBBDDE1FE8201600371B4B /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		35CBBDDF1FE8202500371B4B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				35CBBDE11FE820C200371B4B /* MainTabController.swift */,
+				35CBBDE31FE8226100371B4B /* MyDecksController.swift */,
+				35CBBDE51FE8234200371B4B /* DiscoverViewController.swift */,
+				35CBBDE71FE8252500371B4B /* AccountViewController.swift */,
+				35CBBDE91FE8495800371B4B /* NewDeckViewController.swift */,
+				35CBBDEB1FE8497F00371B4B /* NewCardViewController.swift */,
+				35CBBDED1FE84D5C00371B4B /* DeckViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		35CBBDE01FE8203200371B4B /* Client */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Client;
 			sourceTree = "<group>";
 		};
 		5A8ED4999FD2C55BCC608BAA /* Frameworks */ = {
@@ -184,11 +252,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-JapList/Pods-JapList-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle,
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
@@ -256,7 +324,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				357B8BB41FE2E04D00D2DEC8 /* ViewController.swift in Sources */,
+				35CBBDEC1FE8497F00371B4B /* NewCardViewController.swift in Sources */,
+				35CBBDF61FE8678300371B4B /* Card+CoreDataClass.swift in Sources */,
+				35CBBDEA1FE8495800371B4B /* NewDeckViewController.swift in Sources */,
 				357B8BB21FE2E04D00D2DEC8 /* AppDelegate.swift in Sources */,
+				35CBBDE81FE8252500371B4B /* AccountViewController.swift in Sources */,
+				35CBBDE41FE8226100371B4B /* MyDecksController.swift in Sources */,
+				35CBBDE21FE820C200371B4B /* MainTabController.swift in Sources */,
+				35CBBDF91FE8678300371B4B /* Deck+CoreDataProperties.swift in Sources */,
+				35CBBDF81FE8678300371B4B /* Deck+CoreDataClass.swift in Sources */,
+				35CBBDF11FE84DFC00371B4B /* Model.xcdatamodeld in Sources */,
+				35CBBDF71FE8678300371B4B /* Card+CoreDataProperties.swift in Sources */,
+				35CBBDE61FE8234200371B4B /* DiscoverViewController.swift in Sources */,
+				35CBBDEE1FE84D5C00371B4B /* DeckViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +523,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		35CBBDEF1FE84DFC00371B4B /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				35CBBDF01FE84DFC00371B4B /* Model.xcdatamodel */,
+			);
+			currentVersion = 35CBBDF01FE84DFC00371B4B /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 357B8BA61FE2E04D00D2DEC8 /* Project object */;
 }
