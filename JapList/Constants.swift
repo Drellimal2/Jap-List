@@ -10,7 +10,12 @@ import Foundation
 
 struct Constants{
     
-    
+    struct SegueIdentifiers{
+        
+        static let newDeck = "newDeck"
+        
+        
+    }
     
     
     

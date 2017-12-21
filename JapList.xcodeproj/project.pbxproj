@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		357B8BB21FE2E04D00D2DEC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */; };
-		357B8BB41FE2E04D00D2DEC8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357B8BB31FE2E04D00D2DEC8 /* ViewController.swift */; };
 		357B8BB71FE2E04D00D2DEC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB51FE2E04D00D2DEC8 /* Main.storyboard */; };
 		357B8BB91FE2E04D00D2DEC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB81FE2E04D00D2DEC8 /* Assets.xcassets */; };
 		357B8BBC1FE2E04D00D2DEC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BBA1FE2E04D00D2DEC8 /* LaunchScreen.storyboard */; };
@@ -26,13 +25,15 @@
 		35CBBDF91FE8678300371B4B /* Deck+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDF51FE8678300371B4B /* Deck+CoreDataProperties.swift */; };
 		35CBBDFB1FE8B50300371B4B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDFA1FE8B50300371B4B /* CoreDataStack.swift */; };
 		35CBBDFD1FE8B6BD00371B4B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDFC1FE8B6BD00371B4B /* Constants.swift */; };
+		35CBBDFF1FEB8E5C00371B4B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDFE1FEB8E5C00371B4B /* Utils.swift */; };
+		35CBBE011FEBA41800371B4B /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBE001FEBA41800371B4B /* GCDBlackBox.swift */; };
+		35CBBE031FEBA7C300371B4B /* DeckTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBE021FEBA7C300371B4B /* DeckTableViewCell.swift */; };
 		8CE8C585DC9A9410401BA812 /* Pods_JapList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E569E45AACEE6A8875905D23 /* Pods_JapList.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		357B8BAE1FE2E04D00D2DEC8 /* JapList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JapList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		357B8BB31FE2E04D00D2DEC8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		357B8BB61FE2E04D00D2DEC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		357B8BB81FE2E04D00D2DEC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		357B8BBB1FE2E04D00D2DEC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +52,9 @@
 		35CBBDF51FE8678300371B4B /* Deck+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Deck+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		35CBBDFA1FE8B50300371B4B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		35CBBDFC1FE8B6BD00371B4B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		35CBBDFE1FEB8E5C00371B4B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		35CBBE001FEBA41800371B4B /* GCDBlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
+		35CBBE021FEBA7C300371B4B /* DeckTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckTableViewCell.swift; sourceTree = "<group>"; };
 		C00FC84113B775BB89C4FEA9 /* Pods-JapList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JapList.release.xcconfig"; path = "Pods/Target Support Files/Pods-JapList/Pods-JapList.release.xcconfig"; sourceTree = "<group>"; };
 		CCFB2619E1414A70C555B8FF /* Pods-JapList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JapList.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JapList/Pods-JapList.debug.xcconfig"; sourceTree = "<group>"; };
 		E569E45AACEE6A8875905D23 /* Pods_JapList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JapList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,12 +98,13 @@
 				35CBBDDE1FE8201600371B4B /* View */,
 				35CBBDDD1FE8200A00371B4B /* Model */,
 				357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */,
-				357B8BB31FE2E04D00D2DEC8 /* ViewController.swift */,
 				357B8BB51FE2E04D00D2DEC8 /* Main.storyboard */,
 				357B8BB81FE2E04D00D2DEC8 /* Assets.xcassets */,
 				357B8BBA1FE2E04D00D2DEC8 /* LaunchScreen.storyboard */,
 				357B8BBD1FE2E04D00D2DEC8 /* Info.plist */,
 				35CBBDFC1FE8B6BD00371B4B /* Constants.swift */,
+				35CBBDFE1FEB8E5C00371B4B /* Utils.swift */,
+				35CBBE001FEBA41800371B4B /* GCDBlackBox.swift */,
 			);
 			path = JapList;
 			sourceTree = "<group>";
@@ -120,6 +125,7 @@
 		35CBBDDE1FE8201600371B4B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				35CBBE021FEBA7C300371B4B /* DeckTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -330,16 +336,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				35CBBDFB1FE8B50300371B4B /* CoreDataStack.swift in Sources */,
-				357B8BB41FE2E04D00D2DEC8 /* ViewController.swift in Sources */,
 				35CBBDEC1FE8497F00371B4B /* NewCardViewController.swift in Sources */,
 				35CBBDF61FE8678300371B4B /* Card.swift in Sources */,
 				35CBBDEA1FE8495800371B4B /* NewDeckViewController.swift in Sources */,
 				357B8BB21FE2E04D00D2DEC8 /* AppDelegate.swift in Sources */,
 				35CBBDE81FE8252500371B4B /* AccountViewController.swift in Sources */,
+				35CBBE011FEBA41800371B4B /* GCDBlackBox.swift in Sources */,
 				35CBBDFD1FE8B6BD00371B4B /* Constants.swift in Sources */,
+				35CBBDFF1FEB8E5C00371B4B /* Utils.swift in Sources */,
 				35CBBDE41FE8226100371B4B /* MyDecksController.swift in Sources */,
 				35CBBDE21FE820C200371B4B /* MainTabController.swift in Sources */,
 				35CBBDF91FE8678300371B4B /* Deck+CoreDataProperties.swift in Sources */,
+				35CBBE031FEBA7C300371B4B /* DeckTableViewCell.swift in Sources */,
 				35CBBDF81FE8678300371B4B /* Deck.swift in Sources */,
 				35CBBDF11FE84DFC00371B4B /* Model.xcdatamodeld in Sources */,
 				35CBBDF71FE8678300371B4B /* Card+CoreDataProperties.swift in Sources */,
