@@ -28,6 +28,9 @@
 		35CBBDFF1FEB8E5C00371B4B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDFE1FEB8E5C00371B4B /* Utils.swift */; };
 		35CBBE011FEBA41800371B4B /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBE001FEBA41800371B4B /* GCDBlackBox.swift */; };
 		35CBBE031FEBA7C300371B4B /* DeckTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBE021FEBA7C300371B4B /* DeckTableViewCell.swift */; };
+		35CBBE051FEBB15F00371B4B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35CBBE041FEBB15F00371B4B /* GoogleService-Info.plist */; };
+		35CBBE071FEBBD5900371B4B /* DataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBE061FEBBD5900371B4B /* DataUtils.swift */; };
+		35FD735F1FF21AC4006E9EC3 /* CardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FD735E1FF21AC4006E9EC3 /* CardTableViewCell.swift */; };
 		8CE8C585DC9A9410401BA812 /* Pods_JapList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E569E45AACEE6A8875905D23 /* Pods_JapList.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +58,9 @@
 		35CBBDFE1FEB8E5C00371B4B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		35CBBE001FEBA41800371B4B /* GCDBlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 		35CBBE021FEBA7C300371B4B /* DeckTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckTableViewCell.swift; sourceTree = "<group>"; };
+		35CBBE041FEBB15F00371B4B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		35CBBE061FEBBD5900371B4B /* DataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUtils.swift; sourceTree = "<group>"; };
+		35FD735E1FF21AC4006E9EC3 /* CardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTableViewCell.swift; sourceTree = "<group>"; };
 		C00FC84113B775BB89C4FEA9 /* Pods-JapList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JapList.release.xcconfig"; path = "Pods/Target Support Files/Pods-JapList/Pods-JapList.release.xcconfig"; sourceTree = "<group>"; };
 		CCFB2619E1414A70C555B8FF /* Pods-JapList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JapList.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JapList/Pods-JapList.debug.xcconfig"; sourceTree = "<group>"; };
 		E569E45AACEE6A8875905D23 /* Pods_JapList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JapList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +108,7 @@
 				357B8BB81FE2E04D00D2DEC8 /* Assets.xcassets */,
 				357B8BBA1FE2E04D00D2DEC8 /* LaunchScreen.storyboard */,
 				357B8BBD1FE2E04D00D2DEC8 /* Info.plist */,
+				35CBBE041FEBB15F00371B4B /* GoogleService-Info.plist */,
 				35CBBDFC1FE8B6BD00371B4B /* Constants.swift */,
 				35CBBDFE1FEB8E5C00371B4B /* Utils.swift */,
 				35CBBE001FEBA41800371B4B /* GCDBlackBox.swift */,
@@ -112,6 +119,7 @@
 		35CBBDDD1FE8200A00371B4B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				35CBBE061FEBBD5900371B4B /* DataUtils.swift */,
 				35CBBDF21FE8678300371B4B /* Card.swift */,
 				35CBBDF31FE8678300371B4B /* Card+CoreDataProperties.swift */,
 				35CBBDF41FE8678300371B4B /* Deck.swift */,
@@ -126,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				35CBBE021FEBA7C300371B4B /* DeckTableViewCell.swift */,
+				35FD735E1FF21AC4006E9EC3 /* CardTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -233,6 +242,7 @@
 				357B8BBC1FE2E04D00D2DEC8 /* LaunchScreen.storyboard in Resources */,
 				357B8BB91FE2E04D00D2DEC8 /* Assets.xcassets in Resources */,
 				357B8BB71FE2E04D00D2DEC8 /* Main.storyboard in Resources */,
+				35CBBE051FEBB15F00371B4B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,10 +355,12 @@
 				35CBBDFD1FE8B6BD00371B4B /* Constants.swift in Sources */,
 				35CBBDFF1FEB8E5C00371B4B /* Utils.swift in Sources */,
 				35CBBDE41FE8226100371B4B /* MyDecksController.swift in Sources */,
+				35CBBE071FEBBD5900371B4B /* DataUtils.swift in Sources */,
 				35CBBDE21FE820C200371B4B /* MainTabController.swift in Sources */,
 				35CBBDF91FE8678300371B4B /* Deck+CoreDataProperties.swift in Sources */,
 				35CBBE031FEBA7C300371B4B /* DeckTableViewCell.swift in Sources */,
 				35CBBDF81FE8678300371B4B /* Deck.swift in Sources */,
+				35FD735F1FF21AC4006E9EC3 /* CardTableViewCell.swift in Sources */,
 				35CBBDF11FE84DFC00371B4B /* Model.xcdatamodeld in Sources */,
 				35CBBDF71FE8678300371B4B /* Card+CoreDataProperties.swift in Sources */,
 				35CBBDE61FE8234200371B4B /* DiscoverViewController.swift in Sources */,

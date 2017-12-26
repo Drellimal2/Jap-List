@@ -22,6 +22,7 @@ class MyDecksController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         stack = delegate.stack
+        decks = getAllDecks(moc: (stack?.context)!)
         subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), object: stack?.context)        // Do any additional setup after loading the view.
     }
 

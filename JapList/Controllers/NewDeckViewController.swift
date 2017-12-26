@@ -15,6 +15,8 @@ class NewDeckViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descTextField: UITextField!
     @IBOutlet weak var saveBtn: UIButton!
+    var keyboardOnScreen = false
+
     let tapRec = UITapGestureRecognizer()
     let delegate = UIApplication.shared.delegate as! AppDelegate
     var stack : CoreDataStack? = nil
@@ -23,7 +25,7 @@ class NewDeckViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         stack = delegate.stack
-        
+        setup()
 
     }
     
@@ -44,11 +46,14 @@ class NewDeckViewController: UIViewController {
             alert(title: "Invalid Title", message: "Title cannot be empty", controller: self)
             return
         }
-    
-        let newDeck = Deck(cover: UIImageJPEGRepresentation(self.coverImage.image!, 0.8)!, title : self.titleTextField.text!, context: (stack?.context)!)
-        self.timeAdded = newDeck.createdDate
-        print(newDeck)
-        stack?.save()
+        let imageData = UIImageJPEGRepresentation(self.coverImage.image!, 0.8)!
+        let name = self.titleTextField.text!
+        stack?.performBackgroundBatchOperation{
+            (workingContext) in
+        
+            let newDeck = Deck(cover: imageData, title : name , context: workingContext)
+            self.timeAdded = newDeck.createdDate
+        }
             
         setUIEnabled(true)
     }
@@ -84,10 +89,18 @@ extension NewDeckViewController {
         tapRec.addTarget(self, action: #selector(NewDeckViewController.tappedImage))
         coverImage.addGestureRecognizer(tapRec)
         
-        
         subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), controller: self)
         
+        subscribeToKeyboardNotifications()
         
+        
+    }
+    
+    func subscribeToKeyboardNotifications() {
+        subscribeToNotification(.UIKeyboardWillShow, selector: #selector(keyboardWillShow), controller: self)
+        subscribeToNotification(.UIKeyboardWillHide, selector: #selector(keyboardWillHide), controller: self)
+        subscribeToNotification(.UIKeyboardDidShow, selector: #selector(keyboardDidShow), controller: self)
+        subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide), controller: self)
     }
     
     
@@ -131,7 +144,51 @@ extension NewDeckViewController {
     
 }
 
-
+extension NewDeckViewController : UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        print("idk")
+        // Try to find next responder
+        if let nextField = self.view.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+        }
+        return false
+    }
+    
+    // MARK: Show/Hide Keyboard
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        
+        if !keyboardOnScreen {
+            self.view.frame.origin.y -= self.keyboardHeight(notification)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if keyboardOnScreen {
+            self.view.frame.origin.y += self.keyboardHeight(notification)
+        }
+    }
+    
+    @objc func keyboardDidShow(_ notification: Notification) {
+        keyboardOnScreen = true
+       
+    }
+    
+    @objc func keyboardDidHide(_ notification: Notification) {
+        keyboardOnScreen = false
+    }
+    
+    func keyboardHeight(_ notification: Notification) -> CGFloat {
+        return ((notification as NSNotification).userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue.height
+    }
+    
+    
+}
 extension NewDeckViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String:Any]) {
