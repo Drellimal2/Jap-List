@@ -18,6 +18,7 @@ class MyDecksController: UIViewController {
     var stack : CoreDataStack? = nil
 
     var decks : [Deck] = []
+    var selDeck : Deck? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +34,24 @@ class MyDecksController: UIViewController {
 
 }
 
+extension MyDecksController{
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.SegueIdentifiers.deckDetails {
+            let dest = segue.destination as! DeckViewController
+            dest.deck = selDeck
+            selDeck = nil
+        }
+    }
+    
+}
+
 extension MyDecksController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+        selDeck = decks[indexPath.row]
+        performSegue(withIdentifier: Constants.SegueIdentifiers.deckDetails, sender: self)
         print(indexPath.row)
     }
     

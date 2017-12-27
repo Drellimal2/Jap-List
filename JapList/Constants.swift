@@ -13,6 +13,8 @@ struct Constants{
     struct SegueIdentifiers{
         
         static let newDeck = "newDeck"
+        static let newCard = "newCard"
+        static let deckDetails = "deckDetails"
         
         
     }

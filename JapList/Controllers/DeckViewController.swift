@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class DeckViewController: UIViewController {
     
@@ -20,17 +21,42 @@ class DeckViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var wordTable: UITableView!
+    @IBOutlet weak var newWordBtn: UIButton!
+    @IBOutlet weak var reviewBtn: UIButton!
+    @IBOutlet weak var quizBtn: UIButton!
+    @IBOutlet weak var otherBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         stack = delegate.stack
-        cards = Array((deck?.cards)!) as? [Card]
-        // Do any additional setup after loading the view.
+        setup()
+        subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), object: stack?.context, controller: self)        // Do any
     }
 
+    func setup(){
+        titleLabel.text = deck?.name
+        coverImage.image = UIImage(data: (deck?.cover)! as Data)
+        descTextView.text = deck?.description
+        cards = Array((deck?.cards)!) as? [Card]
 
+    }
+    
+    @IBAction func addWord(_ sender: Any) {
+        performSegue(withIdentifier: Constants.SegueIdentifiers.newCard, sender: self)
+    }
+    
+}
 
+extension DeckViewController{
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.SegueIdentifiers.newCard {
+            let dest = segue.destination as! NewCardViewController
+            dest.deck = deck
+        }
+        print(segue.destination)
+    }
+    
 }
 
 extension DeckViewController : UITableViewDelegate, UITableViewDataSource {
@@ -59,5 +85,42 @@ extension DeckViewController : UITableViewDelegate, UITableViewDataSource {
         return cell!
     }
     
+    
+}
+
+
+extension DeckViewController {
+    
+    @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else { return }
+        
+        if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
+            
+            for insert in inserts{
+                if insert is Card {
+                    if (insert as! Card).deck == deck {
+                        cards?.append(insert as! Card)
+                        let last_ind_row = (cards?.count)! - 1
+                        let last_ind = IndexPath.init(row: last_ind_row, section: 0)
+                        wordTable.insertRows(at: [last_ind], with: .automatic)
+                        wordTable.scrollToRow(at: last_ind, at: .bottom, animated: true)
+                    }
+                    
+                }
+                
+            }
+            
+            print("Inserted Card \(inserts.count)")
+            
+        }
+        
+        if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
+            print("Updated \(updates.count)")
+        }
+        
+        if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
+            print("Deleted \(deletes.count)")
+        }
+    }
     
 }
