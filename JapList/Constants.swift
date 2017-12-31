@@ -19,6 +19,22 @@ struct Constants{
         
     }
     
+    struct SnapshotFields {
+        // Deck
+        static let title = "title"
+        static let desc = "description"
+        static let cover = "cover_url"
+        
+        // Card
+        static let kanji = "kanji"
+        static let kana = "kana"
+        static let trans = "translation"
+        static let romaji = "romaji"
+        
+        
+        
+    }
+    
     
     
     

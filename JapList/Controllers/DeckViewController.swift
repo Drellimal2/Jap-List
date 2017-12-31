@@ -8,14 +8,16 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 class DeckViewController: UIViewController {
     
     let delegate = UIApplication.shared.delegate as! AppDelegate
     var stack : CoreDataStack? = nil
-    var deck : Deck?
-    var cards : [Card]?
-
+    var deck : Deck? = nil
+    var cards : [Card]? = nil
+    var deckDocument : DocumentSnapshot? = nil
+    var cardSnapshots : [DocumentSnapshot]? = nil
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var descTextView: UITextView!
     
