@@ -8,24 +8,37 @@
 
 import UIKit
 import Firebase
+import FirebaseAuthUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let stack = CoreDataStack(modelName: "Model")!
+    var defaultStore : Firestore? = nil
+    let imageCache = NSCache<NSString, UIImage>()
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-
-        stack.autoSave(15)
-        print(5)
+        firestoreSetup()
+        
+        stack.autoSave(60)
         return true
     }
 
+    func firestoreSetup(){
+        let settings = FirestoreSettings()
+        settings.isPersistenceEnabled = true
+        
+        defaultStore = Firestore.firestore()
+        defaultStore?.settings = settings
+        
+        
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         
         stack.save()
@@ -40,6 +53,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication ?? "") ?? false
     }
 
 
