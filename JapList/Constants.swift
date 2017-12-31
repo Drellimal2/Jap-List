@@ -15,7 +15,15 @@ struct Constants{
         static let newDeck = "newDeck"
         static let newCard = "newCard"
         static let deckDetails = "deckDetails"
+        static let cardReview = "reviewCards"
         
+        
+        
+    }
+    
+    struct StoryboardIdentifiers{
+        
+        static let detailCardView = "detailViewCard"
         
     }
     
@@ -30,6 +38,8 @@ struct Constants{
         static let kana = "kana"
         static let trans = "translation"
         static let romaji = "romaji"
+        
+        static let ref = "reference"
         
         
         

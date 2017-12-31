@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		35155F9F1FF8AA9C00CAEA74 /* FirebaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155F9E1FF8AA9C00CAEA74 /* FirebaseUtils.swift */; };
+		35155FA11FF9710700CAEA74 /* CardReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155FA01FF9710700CAEA74 /* CardReviewViewController.swift */; };
+		35155FA31FF9713700CAEA74 /* CardReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155FA21FF9713700CAEA74 /* CardReviewCollectionViewCell.swift */; };
 		357B8BB21FE2E04D00D2DEC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */; };
 		357B8BB71FE2E04D00D2DEC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB51FE2E04D00D2DEC8 /* Main.storyboard */; };
 		357B8BB91FE2E04D00D2DEC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB81FE2E04D00D2DEC8 /* Assets.xcassets */; };
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		35155F9E1FF8AA9C00CAEA74 /* FirebaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtils.swift; sourceTree = "<group>"; };
+		35155FA01FF9710700CAEA74 /* CardReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReviewViewController.swift; sourceTree = "<group>"; };
+		35155FA21FF9713700CAEA74 /* CardReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		357B8BAE1FE2E04D00D2DEC8 /* JapList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JapList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		357B8BB61FE2E04D00D2DEC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 				35CBBE021FEBA7C300371B4B /* DeckTableViewCell.swift */,
 				35FD735E1FF21AC4006E9EC3 /* CardTableViewCell.swift */,
 				35FD73621FF69F5A006E9EC3 /* DeckCollectionViewCell.swift */,
+				35155FA21FF9713700CAEA74 /* CardReviewCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -154,6 +159,7 @@
 				35CBBDE91FE8495800371B4B /* NewDeckViewController.swift */,
 				35CBBDEB1FE8497F00371B4B /* NewCardViewController.swift */,
 				35CBBDED1FE84D5C00371B4B /* DeckViewController.swift */,
+				35155FA01FF9710700CAEA74 /* CardReviewViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -359,6 +365,7 @@
 				357B8BB21FE2E04D00D2DEC8 /* AppDelegate.swift in Sources */,
 				35CBBDE81FE8252500371B4B /* AccountViewController.swift in Sources */,
 				35CBBE011FEBA41800371B4B /* GCDBlackBox.swift in Sources */,
+				35155FA11FF9710700CAEA74 /* CardReviewViewController.swift in Sources */,
 				35FD73631FF69F5A006E9EC3 /* DeckCollectionViewCell.swift in Sources */,
 				35CBBDFD1FE8B6BD00371B4B /* Constants.swift in Sources */,
 				35CBBDFF1FEB8E5C00371B4B /* Utils.swift in Sources */,
@@ -366,6 +373,7 @@
 				35CBBE071FEBBD5900371B4B /* DataUtils.swift in Sources */,
 				35CBBDE21FE820C200371B4B /* MainTabController.swift in Sources */,
 				35CBBDF91FE8678300371B4B /* Deck+CoreDataProperties.swift in Sources */,
+				35155FA31FF9713700CAEA74 /* CardReviewCollectionViewCell.swift in Sources */,
 				35CBBE031FEBA7C300371B4B /* DeckTableViewCell.swift in Sources */,
 				35CBBDF81FE8678300371B4B /* Deck.swift in Sources */,
 				35FD735F1FF21AC4006E9EC3 /* CardTableViewCell.swift in Sources */,

@@ -53,6 +53,7 @@ class DiscoverViewController: UIViewController {
     }
     
     func populateDeck(){
+        
         defaultStore?.collection("public_decks").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -134,7 +135,7 @@ class DiscoverViewController: UIViewController {
         
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
-        flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+        flowLayout.itemSize = CGSize(width: dimension, height: 500.0)
         flowLayout.scrollDirection = .vertical
     }
 
@@ -146,8 +147,7 @@ class DiscoverViewController: UIViewController {
         signInButton.isHidden = isSignedIn
         
         if isSignedIn {
-            // remove background blur (will use when showing image messages)
-            populateDeck()
+//            populateDeck()
             print("hey")
         }
     }

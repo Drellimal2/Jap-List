@@ -46,7 +46,8 @@ class DeckViewController: UIViewController {
         cards = []
         cardSnapshots = []
         defaultStore = delegate.defaultStore
-        reviewBtn.isHidden = true
+        newWordBtn.isHidden = true
+        reviewBtn.isHidden = false
         deleteBtn.isHidden = true
         otherBtn.isHidden = false
         otherBtn.titleLabel?.text = "Save"
@@ -81,6 +82,9 @@ class DeckViewController: UIViewController {
         coverImage.image = UIImage(data: (deck?.cover)! as Data)
         descTextView.text = deck?.description
         cards = Array((deck?.cards)!) as? [Card]
+        reviewBtn.isHidden = false
+        deleteBtn.isHidden = false
+        otherBtn.isHidden = true
         
     }
     func setup(){
@@ -102,6 +106,15 @@ class DeckViewController: UIViewController {
         performSegue(withIdentifier: Constants.SegueIdentifiers.newCard, sender: self)
     }
     
+    @IBAction func saveUnsave(_ sender: Any) {
+        addDeckToUserLists(defaultStore: delegate.defaultStore!, doc: deckDocument!)
+        print("7")
+    }
+    
+    @IBAction func deleteDeck(_ sender: Any) {
+        print("deleted")
+    }
+    
 }
 
 extension DeckViewController{
@@ -109,6 +122,15 @@ extension DeckViewController{
         if segue.identifier == Constants.SegueIdentifiers.newCard {
             let dest = segue.destination as! NewCardViewController
             dest.deck = deck
+        } else if segue.identifier == Constants.SegueIdentifiers.cardReview {
+            let dest = segue.destination as! CardReviewViewController
+            if isSnap! {
+                dest.deckDocument = self.deckDocument
+                dest.cardSnapshots = self.cardSnapshots
+            } else {
+                dest.cards = self.cards
+                dest.deck = self.deck
+            }
         }
         print(segue.destination)
     }
