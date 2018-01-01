@@ -24,11 +24,16 @@ class DeckViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var wordTable: UITableView!
     @IBOutlet weak var newWordBtn: UIButton!
+    @IBOutlet weak var editBtn: UIButton!
+
     @IBOutlet weak var reviewBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var otherBtn: UIButton!
     var saveSnap :Bool? = true
     var isSnap :Bool? = false
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +49,7 @@ class DeckViewController: UIViewController {
         //coverImage.image = UIImage(data: (deck?.cover)! as Data)
         descLabel.text = deckdoc[Constants.SnapshotFields.desc] ?? "No description"
         let coverlink = deckdoc[Constants.SnapshotFields.cover]
-        setImage(imageView: self.coverImage, delegate: self.delegate, link: coverlink!, snap: true)
+        setImage(imageView: self.coverImage, delegate: self.delegate, lnk: coverlink!, snap: true)
 
         cards = []
         cardSnapshots = []
@@ -53,6 +58,7 @@ class DeckViewController: UIViewController {
         reviewBtn.isHidden = false
         deleteBtn.isHidden = true
         otherBtn.isHidden = false
+        editBtn.isHidden = true
         otherBtn.titleLabel?.text = "Save"
         populateCardSnaps()
         addListeners()
@@ -113,7 +119,12 @@ class DeckViewController: UIViewController {
         if saveSnap!{
             addDeckToUserLists(defaultStore: delegate.defaultStore!, doc: deckDocument!)
         } else {
-            deleteDeckFromUserLists(defaultStore: delegate.defaultStore!, doc: deckDocument!)
+            let okAction : UIAlertAction  = UIAlertAction(title: "Yes, I'm Sure", style: .destructive, handler: { (action) in
+                deleteDeckFromUserLists(defaultStore: self.delegate.defaultStore!, doc: self.deckDocument!)
+            })
+            let cancelAction : UIAlertAction  = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            alert(title: "Are you sure?", message: "This will remove this deck from your Decks.", controller: self, actions: [okAction, cancelAction])
+            
         }
     }
     
@@ -143,6 +154,9 @@ extension DeckViewController{
                 dest.cards = self.cards
                 dest.deck = self.deck
             }
+        } else if segue.identifier == Constants.SegueIdentifiers.editDeck {
+            let dest = segue.destination as! NewDeckViewController
+            dest.deck = self.deck
         }
         print(segue.destination)
     }
@@ -292,6 +306,17 @@ extension DeckViewController {
         }
         
         if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
+            for update in updates{
+                if update is Deck {
+                    if deck?.objectID == (update as! Deck).objectID {
+                        self.deck = update as? Deck
+                        performUIUpdatesOnMain {
+                            self.setupCoreData()
+                        }
+                    }
+                }
+                
+            }
             print("Updated \(updates.count)")
         }
         

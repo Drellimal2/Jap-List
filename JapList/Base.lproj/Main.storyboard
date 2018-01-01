@@ -150,7 +150,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="dXm-U8-LMY">
                                                     <rect key="frame" x="8" y="0.0" width="343" height="122.5"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ydq-4D-98V">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="ydq-4D-98V">
                                                             <rect key="frame" x="0.0" y="16.5" width="90" height="90"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="90" id="JWs-7d-Mws"/>
@@ -228,7 +228,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VZh-IH-dot">
                                                 <rect key="frame" x="0.0" y="0.0" width="363" height="233"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k8O-uO-UZj">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="k8O-uO-UZj">
                                                         <rect key="frame" x="0.0" y="29" width="150" height="175"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="150" id="RcE-Om-BFB"/>
@@ -261,14 +261,21 @@
                                                 <rect key="frame" x="0.0" y="233" width="363" height="40"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qeu-ek-Lap">
-                                                        <rect key="frame" x="0.0" y="0.0" width="121" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="91" height="40"/>
                                                         <state key="normal" title="Review"/>
                                                         <connections>
                                                             <segue destination="yQe-5O-j8B" kind="presentation" identifier="reviewCards" id="b7U-ei-G98"/>
                                                         </connections>
                                                     </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHT-3M-EuZ">
+                                                        <rect key="frame" x="91" y="0.0" width="90.5" height="40"/>
+                                                        <state key="normal" title="Edit"/>
+                                                        <connections>
+                                                            <segue destination="r07-O5-xID" kind="show" identifier="editDeck" id="YGE-cR-zEn"/>
+                                                        </connections>
+                                                    </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wSn-Ef-W9U">
-                                                        <rect key="frame" x="121" y="0.0" width="121" height="40"/>
+                                                        <rect key="frame" x="181.5" y="0.0" width="91" height="40"/>
                                                         <state key="normal" title="Delete">
                                                             <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
@@ -277,7 +284,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RgT-cw-SAC">
-                                                        <rect key="frame" x="242" y="0.0" width="121" height="40"/>
+                                                        <rect key="frame" x="272.5" y="0.0" width="90.5" height="40"/>
                                                         <state key="normal" title="Save"/>
                                                         <connections>
                                                             <action selector="saveUnsave:" destination="EK4-v5-Qmd" eventType="touchUpInside" id="OTJ-M0-pjr"/>
@@ -379,6 +386,7 @@
                         <outlet property="coverImage" destination="k8O-uO-UZj" id="AnQ-x9-JVW"/>
                         <outlet property="deleteBtn" destination="wSn-Ef-W9U" id="Gvd-pb-FJQ"/>
                         <outlet property="descLabel" destination="RSi-41-rAz" id="oKO-KH-Edb"/>
+                        <outlet property="editBtn" destination="OHT-3M-EuZ" id="wPP-oL-rwt"/>
                         <outlet property="newWordBtn" destination="cu5-e1-Wed" id="U2m-he-BnR"/>
                         <outlet property="otherBtn" destination="RgT-cw-SAC" id="Glw-1w-Ajf"/>
                         <outlet property="reviewBtn" destination="Qeu-ek-Lap" id="Eta-63-lWB"/>
@@ -592,7 +600,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="748" showsHorizontalScrollIndicator="NO" text="(Optional)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NDq-3C-mS8">
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="748" showsHorizontalScrollIndicator="NO" text="(Optional)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NDq-3C-mS8">
                                                         <rect key="frame" x="0.0" y="24.5" width="359" height="286.5"/>
                                                         <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.18886451198630136" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -603,13 +611,25 @@
                                                     </textView>
                                                 </subviews>
                                             </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTe-2A-pxE">
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="pIu-lr-tEc">
                                                 <rect key="frame" x="0.0" y="585" width="359" height="30"/>
-                                                <state key="normal" title="Save"/>
-                                                <connections>
-                                                    <action selector="saveImage:" destination="r07-O5-xID" eventType="touchUpInside" id="X3Y-A1-Dk4"/>
-                                                </connections>
-                                            </button>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pbs-KL-O6A">
+                                                        <rect key="frame" x="0.0" y="0.0" width="179.5" height="30"/>
+                                                        <state key="normal" title="Save and Upload"/>
+                                                        <connections>
+                                                            <action selector="saveUploadImage:" destination="r07-O5-xID" eventType="touchUpInside" id="Vh6-9t-Kdg"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTe-2A-pxE">
+                                                        <rect key="frame" x="179.5" y="0.0" width="179.5" height="30"/>
+                                                        <state key="normal" title="Save"/>
+                                                        <connections>
+                                                            <action selector="saveImage:" destination="r07-O5-xID" eventType="touchUpInside" id="X3Y-A1-Dk4"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -628,13 +648,15 @@
                     <connections>
                         <outlet property="coverImage" destination="ZUt-TA-jam" id="KpC-nI-zIY"/>
                         <outlet property="descTextField" destination="NDq-3C-mS8" id="V4f-1k-zO0"/>
+                        <outlet property="navbar" destination="gk0-Nu-LOr" id="YIA-MK-IJX"/>
                         <outlet property="saveBtn" destination="HTe-2A-pxE" id="hSh-mo-BDG"/>
+                        <outlet property="saveUploadBtn" destination="Pbs-KL-O6A" id="tJV-bn-YP3"/>
                         <outlet property="titleTextField" destination="d7a-ui-hXj" id="Li9-FA-I4T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DlH-aR-Imh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1220" y="-1110"/>
+            <point key="canvasLocation" x="1220" y="-1110.4947526236883"/>
         </scene>
         <!--Card Review View Controller-->
         <scene sceneID="Q51-IZ-fON">
@@ -826,6 +848,7 @@
         <image name="Red Circle" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="6Bu-V6-REY"/>
         <segue reference="qF3-9M-qdA"/>
     </inferredMetricsTieBreakers>
 </document>

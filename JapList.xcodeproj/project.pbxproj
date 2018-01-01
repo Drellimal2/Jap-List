@@ -11,6 +11,7 @@
 		35155FA11FF9710700CAEA74 /* CardReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155FA01FF9710700CAEA74 /* CardReviewViewController.swift */; };
 		35155FA31FF9713700CAEA74 /* CardReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155FA21FF9713700CAEA74 /* CardReviewCollectionViewCell.swift */; };
 		35155FAB1FF9D5A100CAEA74 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35155FA91FF9D5A100CAEA74 /* Model.xcdatamodeld */; };
+		35155FB11FFA231C00CAEA74 /* MyActivityInd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155FB01FFA231C00CAEA74 /* MyActivityInd.swift */; };
 		357B8BB21FE2E04D00D2DEC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */; };
 		357B8BB71FE2E04D00D2DEC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB51FE2E04D00D2DEC8 /* Main.storyboard */; };
 		357B8BB91FE2E04D00D2DEC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB81FE2E04D00D2DEC8 /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 		35155FA01FF9710700CAEA74 /* CardReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReviewViewController.swift; sourceTree = "<group>"; };
 		35155FA21FF9713700CAEA74 /* CardReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		35155FAA1FF9D5A100CAEA74 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		35155FB01FFA231C00CAEA74 /* MyActivityInd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivityInd.swift; sourceTree = "<group>"; };
 		357B8BAE1FE2E04D00D2DEC8 /* JapList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JapList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		357B8BB61FE2E04D00D2DEC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				35FD735E1FF21AC4006E9EC3 /* CardTableViewCell.swift */,
 				35FD73621FF69F5A006E9EC3 /* DeckCollectionViewCell.swift */,
 				35155FA21FF9713700CAEA74 /* CardReviewCollectionViewCell.swift */,
+				35155FB01FFA231C00CAEA74 /* MyActivityInd.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				35CBBE031FEBA7C300371B4B /* DeckTableViewCell.swift in Sources */,
 				35CBBDF81FE8678300371B4B /* Deck.swift in Sources */,
 				35FD735F1FF21AC4006E9EC3 /* CardTableViewCell.swift in Sources */,
+				35155FB11FFA231C00CAEA74 /* MyActivityInd.swift in Sources */,
 				35CBBDF71FE8678300371B4B /* Card+CoreDataProperties.swift in Sources */,
 				35CBBDE61FE8234200371B4B /* DiscoverViewController.swift in Sources */,
 				35CBBDEE1FE84D5C00371B4B /* DeckViewController.swift in Sources */,

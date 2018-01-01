@@ -7,8 +7,12 @@
 //
 
 import Foundation
+import UIKit
 
 struct Constants{
+    
+    static let grey_color = UIColor(red: 200.0/255.0, green: 200.0/255.0, blue: 200.0/255.0, alpha: 0.5)
+
     
     struct SegueIdentifiers{
         
@@ -16,6 +20,7 @@ struct Constants{
         static let newCard = "newCard"
         static let deckDetails = "deckDetails"
         static let cardReview = "reviewCards"
+        static let editDeck = "editDeck"
         
         
         
@@ -42,6 +47,7 @@ struct Constants{
         static let romaji = "romaji"
         
         static let ref = "reference"
+        static let coredataref = "core_data_ref"
         
         
         

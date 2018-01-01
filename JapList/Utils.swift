@@ -54,7 +54,12 @@ func alert(title : String, message : String, controller : UIViewController, acti
     controller.present(alert, animated: true, completion: nil)
 }
 
-func setImage(imageView : UIImageView, delegate : AppDelegate, link : String, snap : Bool){
+func setImage(imageView : UIImageView, delegate : AppDelegate, lnk : String?, snap : Bool){
+    if lnk == nil{
+        imageView.image = UIImage(named : "Placeholder")
+        return
+    }
+    let link = lnk!
     if let cachedImage = delegate.imageCache.object(forKey: link as NSString) {
         imageView.image = cachedImage
     } else {

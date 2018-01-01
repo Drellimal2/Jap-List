@@ -229,7 +229,11 @@ extension MyDecksController : UITableViewDelegate, UITableViewDataSource{
             cell.title.text = deck[Constants.SnapshotFields.title]
             cell.cover.image = UIImage(named: "Red Circle")
             let coverlink = deck[Constants.SnapshotFields.cover]
-            setImage(imageView: cell.cover, delegate: self.delegate, link: coverlink!, snap: true)
+            if coverlink == nil{
+                cell.cover.image = UIImage(named : "Placeholder")
+            } else {
+            setImage(imageView: cell.cover, delegate: self.delegate, lnk: coverlink!, snap: true)
+            }
         default:
             print("cell")
         }
@@ -272,6 +276,16 @@ extension MyDecksController {
         
         if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
             print("Updated \(updates.count)")
+            for update in updates{
+                if update is Deck {
+                    if (self.decks.contains(update as! Deck)){
+                        let ind = self.decks.index(of: update as! Deck)
+                        self.decks[ind!] = update as! Deck
+                        self.deckTableView.reloadRows(at: [IndexPath(row : ind!, section :0)], with: .automatic)
+                    }
+                }
+                
+            }
         }
         
         if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {

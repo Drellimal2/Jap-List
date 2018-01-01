@@ -212,7 +212,7 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
         let _ = deck[Constants.SnapshotFields.desc] ?? ""
         cell.title.text = title
         if let cover_url = deckSnapshot[Constants.SnapshotFields.cover] {
-            setImage(imageView: cell.coverImage, delegate: self.delegate, link: cover_url as! String, snap: true)
+            setImage(imageView: cell.coverImage, delegate: self.delegate, lnk: cover_url as! String, snap: true)
           
         
         }
