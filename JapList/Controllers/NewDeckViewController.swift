@@ -215,12 +215,13 @@ extension NewDeckViewController {
                         print("We did it")
                         if self.upload!{
                             print("Uploaded")
-                            startUpdateUpload(defaultStore: delegate.defaultStore!, deck: deck, completionHandler: {(error) in
+                            FirebaseUtils.startUpdateUpload(defaultStore: delegate.defaultStore!, deck: deck, completionHandler: {(error) in
                                 performUIUpdatesOnMain {
                                     if let err = error{
-                                        
+                                        print("hello")
                                         alert(title: "Error", message: err, controller: self)
                                     } else {
+                                        print("hiyo")
                                         self.dismiss(animated: true, completion: nil)
                                         
                                     }
@@ -248,12 +249,12 @@ extension NewDeckViewController {
                             if deck.objectID == (self.deck?.objectID)! {
                                 if self.upload!{
                                     print("Uploaded Edit")
-                                    startUpdateUpload(defaultStore: delegate.defaultStore!, deck: deck, completionHandler: {(error) in
+                                    FirebaseUtils.startUpdateUpload(defaultStore: delegate.defaultStore!, deck: deck, completionHandler: {(error) in
                                             performUIUpdatesOnMain {
                                                 if let err = error{
-
-                                                    alert(title: "Error", message: err, controller: self.navigationController!)
+                                                    alert(title: "Error", message: err, controller: self)
                                                 } else {
+                                                    print("herro no error")
                                                     self.navigationController?.popViewController(animated: true)
 
                                                 }

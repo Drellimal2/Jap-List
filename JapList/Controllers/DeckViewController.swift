@@ -68,18 +68,21 @@ class DeckViewController: UIViewController {
         defaultStore?.collection("public_decks").document((deckDocument?.documentID)!).collection("cards").getDocuments(completion: {  (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
-                    alert(title: "Error", message: "Could not retrieve decks.", controller: self)
-                } else {
                     performUIUpdatesOnMain {
-                        print(querySnapshot!.documents.count)
-                        var count = 0
-                        for document in querySnapshot!.documents {
-                            self.cardSnapshots?.append(document)
-                            self.wordTable.insertRows(at: [IndexPath(row: (self.cardSnapshots?.count)!-1, section: 0)], with: .automatic)
-                            count += 1
-                        }
-                        
+
+                    alert(title: "Error", message: "Could not retrieve decks.", controller: self)
                     }
+//                } else {
+//                    performUIUpdatesOnMain {
+//                        print(querySnapshot!.documents.count)
+//                        var count = 0
+//                        for document in querySnapshot!.documents {
+//                            self.cardSnapshots?.append(document)
+//                            self.wordTable.insertRows(at: [IndexPath(row: (self.cardSnapshots?.count)!-1, section: 0)], with: .automatic)
+//                            count += 1
+//                        }
+//
+//                    }
                 }
         })
     }
@@ -117,10 +120,10 @@ class DeckViewController: UIViewController {
     
     @IBAction func saveUnsave(_ sender: Any) {
         if saveSnap!{
-            addDeckToUserLists(defaultStore: delegate.defaultStore!, doc: deckDocument!)
+            FirebaseUtils.addDeckToUserLists(defaultStore: delegate.defaultStore!, doc: deckDocument!)
         } else {
             let okAction : UIAlertAction  = UIAlertAction(title: "Yes, I'm Sure", style: .destructive, handler: { (action) in
-                deleteDeckFromUserLists(defaultStore: self.delegate.defaultStore!, doc: self.deckDocument!)
+                FirebaseUtils.deleteDeckFromUserLists(defaultStore: self.delegate.defaultStore!, doc: self.deckDocument!)
             })
             let cancelAction : UIAlertAction  = UIAlertAction(title: "Cancel", style: .default, handler: nil)
             alert(title: "Are you sure?", message: "This will remove this deck from your Decks.", controller: self, actions: [okAction, cancelAction])
@@ -178,7 +181,7 @@ extension DeckViewController{
     }
     
     func saveUnsavecheck(){
-        checkIsinUserDeck(defaultStore: self.defaultStore!, doc: self.deckDocument!, controller: self) { (isIn, error) in
+        FirebaseUtils.checkIsinUserDeck(defaultStore: self.defaultStore!, doc: self.deckDocument!, controller: self) { (isIn, error) in
             performUIUpdatesOnMain {
                 
                 
@@ -193,7 +196,7 @@ extension DeckViewController{
     }
     
     func addListeners(){
-        getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
+        FirebaseUtils.getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
                 print("Error fetching updates")
                 return
@@ -216,6 +219,27 @@ extension DeckViewController{
                 
                 
                 
+            })
+        })
+        
+    defaultStore?.collection("public_decks").document((deckDocument?.documentID)!).collection("cards").addSnapshotListener({ (querySnapshot, error) in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching updates")
+                return
+            }
+            snapshot.documentChanges.forEach({ (diff) in
+                
+                        if diff.type == .added {
+                            let doc = diff.document
+                            self.cardSnapshots?.append(doc)
+                            self.wordTable.insertRows(at: [IndexPath(row: (self.cardSnapshots!.count - 1), section : 0)], with: .automatic)
+                            self.saveBtnSetup(true)
+                        }
+                        
+                        if diff.type == .removed {
+                            self.saveBtnSetup(false)
+                        }
+              
             })
         })
     }

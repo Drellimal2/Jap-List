@@ -35,8 +35,8 @@ class DiscoverViewController: UIViewController {
         super.viewDidLoad()
         setupFlowLayout()
         firestoreSetup()
-        populateDeck()
-        addListeners()
+//        populateDeck()
+//        addListeners()
         configureAuth()
     }
     
@@ -44,11 +44,8 @@ class DiscoverViewController: UIViewController {
         self.loginSession()
     }
     func firestoreSetup(){
-        let settings = FirestoreSettings()
-        settings.isPersistenceEnabled = true
 
-        defaultStore = Firestore.firestore()
-        defaultStore?.settings = settings
+        defaultStore = delegate.defaultStore
 
         
     }
@@ -174,6 +171,7 @@ class DiscoverViewController: UIViewController {
                 if self.user != activeUser {
                     self.user = activeUser
                     self.signedInStatus(isSignedIn: true)
+                    self.addListeners()
                 }
             } else {
                 // user must sign in
@@ -212,9 +210,10 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
         let _ = deck[Constants.SnapshotFields.desc] ?? ""
         cell.title.text = title
         if let cover_url = deckSnapshot[Constants.SnapshotFields.cover] {
-            setImage(imageView: cell.coverImage, delegate: self.delegate, lnk: cover_url as! String, snap: true)
+            setImage(imageView: cell.coverImage, delegate: self.delegate, lnk: cover_url as? String, snap: true)
           
-        
+        } else {
+            cell.coverImage.image = UIImage(named: "Placeholder")
         }
         
         return cell

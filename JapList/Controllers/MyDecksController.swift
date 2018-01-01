@@ -65,7 +65,7 @@ class MyDecksController: UIViewController {
     
     func populateDeck(){
         
-        getUserPublicLists(defaultStore: defaultStore!, controller: self) { (querySnapshot, err) in
+        FirebaseUtils.getUserPublicLists(defaultStore: defaultStore!, controller: self) { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
                 alert(title: "Error", message: "Could not retrieve decks.", controller: self)
@@ -92,7 +92,7 @@ class MyDecksController: UIViewController {
     }
     
     func addListeners(){
-        getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
+        FirebaseUtils.getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
                 print("Error fetching updates")
                 return

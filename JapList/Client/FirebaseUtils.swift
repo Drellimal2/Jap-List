@@ -12,43 +12,43 @@ import FirebaseAuthUI
 import UIKit
 
 
+class FirebaseUtils{
 
-
-func getCurrentUser()->User?{
-    return Auth.auth().currentUser
-}
-
-func getUserListSnapshot(defaultStore : Firestore) -> CollectionReference?{
-    if let currentUser = getCurrentUser()?.uid {
-        return defaultStore.collection("user_decks").document(currentUser).collection("decks")
-    } else {
-        return nil
+    static func getCurrentUser()->User?{
+        return Auth.auth().currentUser
     }
-}
 
-func getUserPublicLists(defaultStore : Firestore, controller : UIViewController, completionHandler : @escaping (_ querySnapshot :QuerySnapshot?, _ error : Error?)->Void){
-    
-    let currentUser = getCurrentUser()?.uid
-    
-    defaultStore.collection("user_decks").document(currentUser!).collection("decks").getDocuments() { (querySnapshot, err) in
-        
-        
-        
-        completionHandler(querySnapshot, err)
-
+    static func getUserListSnapshot(defaultStore : Firestore) -> CollectionReference?{
+        if let currentUser = getCurrentUser()?.uid {
+            return defaultStore.collection("user_decks").document(currentUser).collection("decks")
+        } else {
+            return nil
+        }
     }
-}
 
-func addDeckToUserLists(defaultStore : Firestore, doc : DocumentSnapshot){
-    let currentUser = getCurrentUser()?.uid
-    
-    defaultStore.collection("user_decks").document(currentUser!).collection("decks").addDocument(data: [
-        Constants.SnapshotFields.ref : doc.reference
+    static func getUserPublicLists(defaultStore : Firestore, controller : UIViewController, completionHandler : @escaping (_ querySnapshot :QuerySnapshot?, _ error : Error?)->Void){
         
-    ])
-}
+        let currentUser = getCurrentUser()?.uid
+        
+        defaultStore.collection("user_decks").document(currentUser!).collection("decks").getDocuments() { (querySnapshot, err) in
+            
+            
+            
+            completionHandler(querySnapshot, err)
 
-func checkIsinUserDeck(defaultStore : Firestore, doc : DocumentSnapshot, controller : UIViewController,
+        }
+    }
+
+    static func addDeckToUserLists(defaultStore : Firestore, doc : DocumentSnapshot){
+        let currentUser = getCurrentUser()?.uid
+        
+        defaultStore.collection("user_decks").document(currentUser!).collection("decks").addDocument(data: [
+            Constants.SnapshotFields.ref : doc.reference
+            
+        ])
+    }
+
+static func checkIsinUserDeck(defaultStore : Firestore, doc : DocumentSnapshot, controller : UIViewController,
                        completionHandler : @escaping (_ res :Bool?, _ error : Error?)->Void){
     let collSnap = getUserListSnapshot(defaultStore: defaultStore)
     collSnap?.whereField(Constants.SnapshotFields.ref, isEqualTo: doc.reference).getDocuments(completion: { (querySnapshot, error) in
@@ -67,7 +67,7 @@ func checkIsinUserDeck(defaultStore : Firestore, doc : DocumentSnapshot, control
     
 }
 
-func deleteDeckFromUserLists(defaultStore : Firestore, doc : DocumentSnapshot){
+static func deleteDeckFromUserLists(defaultStore : Firestore, doc : DocumentSnapshot){
     
     let collSnap = getUserListSnapshot(defaultStore: defaultStore)
     collSnap?.whereField(Constants.SnapshotFields.ref, isEqualTo: doc.reference).getDocuments(completion: { (querySnapshot, error) in
@@ -87,7 +87,7 @@ func deleteDeckFromUserLists(defaultStore : Firestore, doc : DocumentSnapshot){
     })
 }
 
-func startUpload(defaultStore : Firestore, deck : Deck, completionHandler : @escaping (_ error:String?)->Void){
+static func startUpload(defaultStore : Firestore, deck : Deck, completionHandler : @escaping (_ error:String?)->Void){
     let user = getCurrentUser()?.uid
     let docref = defaultStore.collection("public_decks").document()
     saveImageToFirebase(photoData: deck.cover! as Data, refId: docref, defaultStore: defaultStore, completionHandler: completionHandler)
@@ -118,7 +118,7 @@ func startUpload(defaultStore : Firestore, deck : Deck, completionHandler : @esc
     
 }
 
-func startUpdateUpload(defaultStore : Firestore, deck : Deck , completionHandler : @escaping (_ error:String?)->Void){
+static func startUpdateUpload(defaultStore : Firestore, deck : Deck , completionHandler : @escaping (_ error:String?)->Void){
     let user = getCurrentUser()?.uid
     defaultStore.collection("public_decks").whereField(Constants.SnapshotFields.coredataref, isEqualTo: user! + getObjectIdUniqueString(obj: deck)).getDocuments { (querySnapshot, error) in
         if error != nil {
@@ -168,7 +168,7 @@ func startUpdateUpload(defaultStore : Firestore, deck : Deck , completionHandler
 }
 
 
-func saveImageToFirebase(photoData : Data, refId : DocumentReference, defaultStore : Firestore, userref : DocumentReference? = nil, completionHandler : @escaping (_ error:String?)->Void){
+static func saveImageToFirebase(photoData : Data, refId : DocumentReference, defaultStore : Firestore, userref : DocumentReference? = nil, completionHandler : @escaping (_ error:String?)->Void){
     let storageRef = Storage.storage().reference()
     // build a path using the user’s ID and a timestamp
     let imagePath = "deck_covers/" + refId.documentID + "_cover.jpg"
@@ -188,7 +188,7 @@ func saveImageToFirebase(photoData : Data, refId : DocumentReference, defaultSto
             : storageRef.child((metadata?.path)!).description], refId: refId, defaultStore: defaultStore, userref: userref, completionHandler : completionHandler)
     }
 }
-func completeUpload(data:[String:String], refId:DocumentReference, defaultStore : Firestore, userref : DocumentReference? = nil, completionHandler : @escaping (_ error:String?)->Void){
+static func completeUpload(data:[String:String], refId:DocumentReference, defaultStore : Firestore, userref : DocumentReference? = nil, completionHandler : @escaping (_ error:String?)->Void){
     let user = getCurrentUser()?.uid
 
         refId.setData(data, options: SetOptions.merge())
@@ -231,6 +231,6 @@ func completeUpload(data:[String:String], refId:DocumentReference, defaultStore 
     }
 }
 
-
+}
 
 
