@@ -48,5 +48,44 @@ func addDeckToUserLists(defaultStore : Firestore, doc : DocumentSnapshot){
     ])
 }
 
+func checkIsinUserDeck(defaultStore : Firestore, doc : DocumentSnapshot, controller : UIViewController,
+                       completionHandler : @escaping (_ res :Bool?, _ error : Error?)->Void){
+    let collSnap = getUserListSnapshot(defaultStore: defaultStore)
+    collSnap?.whereField(Constants.SnapshotFields.ref, isEqualTo: doc.reference).getDocuments(completion: { (querySnapshot, error) in
+        if error != nil {
+            completionHandler(false, error)
+            return
+        }
+        if (querySnapshot?.documents.count)! > 0{
+            completionHandler(true, nil)
+        } else {
+            completionHandler(false, nil)
+        }
+        return
+        
+    })
+    
+}
+
+func deleteDeckFromUserLists(defaultStore : Firestore, doc : DocumentSnapshot){
+    
+    let collSnap = getUserListSnapshot(defaultStore: defaultStore)
+    collSnap?.whereField(Constants.SnapshotFields.ref, isEqualTo: doc.reference).getDocuments(completion: { (querySnapshot, error) in
+        if error != nil {
+            print(error)
+        } else {
+            querySnapshot?.documents.forEach({ (doc) in
+                doc.reference.delete(){ err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
+                    }
+                }
+            })
+        }
+    })
+}
+
 
 

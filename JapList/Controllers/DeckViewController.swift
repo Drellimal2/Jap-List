@@ -27,7 +27,7 @@ class DeckViewController: UIViewController {
     @IBOutlet weak var reviewBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var otherBtn: UIButton!
-    
+    var saveSnap :Bool? = true
     var isSnap :Bool? = false
     
     override func viewDidLoad() {
@@ -55,6 +55,7 @@ class DeckViewController: UIViewController {
         otherBtn.isHidden = false
         otherBtn.titleLabel?.text = "Save"
         populateCardSnaps()
+        addListeners()
     }
     
     func populateCardSnaps(){
@@ -76,6 +77,7 @@ class DeckViewController: UIViewController {
                 }
         })
     }
+    
     
     func setupCoreData(){
         titleLabel.text = deck?.name
@@ -108,7 +110,11 @@ class DeckViewController: UIViewController {
     }
     
     @IBAction func saveUnsave(_ sender: Any) {
-        addDeckToUserLists(defaultStore: delegate.defaultStore!, doc: deckDocument!)
+        if saveSnap!{
+            addDeckToUserLists(defaultStore: delegate.defaultStore!, doc: deckDocument!)
+        } else {
+            deleteDeckFromUserLists(defaultStore: delegate.defaultStore!, doc: deckDocument!)
+        }
     }
     
     @IBAction func deleteDeck(_ sender: Any) {
@@ -141,6 +147,64 @@ extension DeckViewController{
         print(segue.destination)
     }
     
+}
+
+extension DeckViewController{
+    
+    func saveBtnSetup(_ isSave : Bool){
+        saveSnap = !isSave
+        if isSave{
+            otherBtn.setTitle("Unsave", for: .normal)
+//            otherBtn.titleLabel?.text = "Unsave"
+        } else {
+//            otherBtn.titleLabel?.text = "Save"
+            otherBtn.setTitle("Save", for: .normal)
+
+        }
+    }
+    
+    func saveUnsavecheck(){
+        checkIsinUserDeck(defaultStore: self.defaultStore!, doc: self.deckDocument!, controller: self) { (isIn, error) in
+            performUIUpdatesOnMain {
+                
+                
+                if error == nil {
+                    self.saveBtnSetup(isIn!)
+                    self.saveSnap = !isIn!
+                } else {
+                    alert(title: "Error", message: "Could not check list", controller: self)
+                }
+            }
+        }
+    }
+    
+    func addListeners(){
+        getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching updates")
+                return
+            }
+            snapshot.documentChanges.forEach({ (diff) in
+                let a = diff.document.data()
+                let docref = a[Constants.SnapshotFields.ref] as! DocumentReference
+                if let mydocref = self.deckDocument?.reference{
+                    if docref == mydocref{
+                        if diff.type == .added {
+                            self.saveBtnSetup(true)
+                        }
+                        
+                        if diff.type == .removed {
+                            self.saveBtnSetup(false)
+                        }
+                    }
+                }
+                
+                
+                
+                
+            })
+        })
+    }
 }
 
 extension DeckViewController : UITableViewDelegate, UITableViewDataSource {
