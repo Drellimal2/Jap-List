@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 
 func subscribeToNotification(_ name: NSNotification.Name, selector: Selector, object : Any? = nil, controller : UIViewController ) {
@@ -28,4 +29,40 @@ func alert(title : String, message : String, controller : UIViewController, acti
         }
     }
     controller.present(alert, animated: true, completion: nil)
+}
+
+func setImage(imageView : UIImageView, delegate : AppDelegate, link : String, snap : Bool){
+    if let cachedImage = delegate.imageCache.object(forKey: link as NSString) {
+        imageView.image = cachedImage
+    } else {
+        if snap {
+            Storage.storage().reference(forURL: link).getData(maxSize: INT64_MAX, completion: { (data, error) in
+                guard error == nil else {
+                    print("Error downloading: \(error!)")
+                    return
+                }
+                let messageImage = UIImage.init(data: data!, scale: 50)
+                delegate.imageCache.setObject(messageImage!, forKey: link as NSString)
+                performUIUpdatesOnMain {
+                    
+                
+                    imageView.image = messageImage
+                }
+                
+            })
+        } else {
+            URLSession.shared.dataTask(with: NSURL(string: link)! as URL, completionHandler: { (data, response, error) -> Void in
+                
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                let image = UIImage(data: data!)
+                performUIUpdatesOnMain {
+                    imageView.image = image
+                }
+                
+            }).resume()
+        }
+    }
 }

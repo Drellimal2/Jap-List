@@ -37,6 +37,8 @@ class MyDecksController: UIViewController {
     }
     
     
+    
+    
     func populateDeck(){
         
         getUserPublicLists(defaultStore: defaultStore!, controller: self) { (querySnapshot, err) in
@@ -205,6 +207,8 @@ extension MyDecksController : UITableViewDelegate, UITableViewDataSource{
             let deck = deckDoc.data() as! [String:String]
             cell.title.text = deck[Constants.SnapshotFields.title]
             cell.cover.image = UIImage(named: "Red Circle")
+            let coverlink = deck[Constants.SnapshotFields.cover]
+            setImage(imageView: cell.cover, delegate: self.delegate, link: coverlink!, snap: true)
         default:
             print("cell")
         }

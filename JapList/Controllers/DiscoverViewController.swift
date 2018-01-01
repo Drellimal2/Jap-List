@@ -135,7 +135,7 @@ class DiscoverViewController: UIViewController {
         
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
-        flowLayout.itemSize = CGSize(width: dimension, height: 500.0)
+        flowLayout.itemSize = CGSize(width: dimension, height: 200.0)
         flowLayout.scrollDirection = .vertical
     }
 

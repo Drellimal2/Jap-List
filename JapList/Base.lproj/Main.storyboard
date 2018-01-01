@@ -227,17 +227,17 @@
                                         <rect key="frame" x="0.0" y="0.0" width="367" height="273"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VZh-IH-dot">
-                                                <rect key="frame" x="0.0" y="0.0" width="367" height="223"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="367" height="233"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k8O-uO-UZj">
-                                                        <rect key="frame" x="0.0" y="45" width="150" height="133"/>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k8O-uO-UZj">
+                                                        <rect key="frame" x="0.0" y="29" width="150" height="175"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="150" id="RcE-Om-BFB"/>
-                                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="175" id="XYz-op-TSG"/>
+                                                            <constraint firstAttribute="height" constant="175" id="XYz-op-TSG"/>
                                                         </constraints>
                                                     </imageView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Dyh-Vp-Kh8">
-                                                        <rect key="frame" x="158" y="45" width="209" height="133"/>
+                                                        <rect key="frame" x="158" y="29" width="209" height="175"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rCf-XD-J0Q">
                                                                 <rect key="frame" x="88" y="0.0" width="33.5" height="20.5"/>
@@ -245,8 +245,8 @@
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="niN-OG-5yv">
-                                                                <rect key="frame" x="0.0" y="20.5" width="209" height="112.5"/>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="niN-OG-5yv">
+                                                                <rect key="frame" x="0.0" y="20.5" width="209" height="154.5"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <color key="textColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -260,17 +260,17 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Hig-Dm-K2I">
-                                                <rect key="frame" x="0.0" y="223" width="367" height="50"/>
+                                                <rect key="frame" x="0.0" y="233" width="367" height="40"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qeu-ek-Lap">
-                                                        <rect key="frame" x="0.0" y="0.0" width="122.5" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="122.5" height="40"/>
                                                         <state key="normal" title="Review"/>
                                                         <connections>
                                                             <segue destination="yQe-5O-j8B" kind="presentation" identifier="reviewCards" id="b7U-ei-G98"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wSn-Ef-W9U">
-                                                        <rect key="frame" x="122.5" y="0.0" width="122" height="50"/>
+                                                        <rect key="frame" x="122.5" y="0.0" width="122" height="40"/>
                                                         <state key="normal" title="Delete">
                                                             <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
@@ -279,7 +279,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RgT-cw-SAC">
-                                                        <rect key="frame" x="244.5" y="0.0" width="122.5" height="50"/>
+                                                        <rect key="frame" x="244.5" y="0.0" width="122.5" height="40"/>
                                                         <state key="normal" title="Button"/>
                                                         <connections>
                                                             <action selector="saveUnsave:" destination="EK4-v5-Qmd" eventType="touchUpInside" id="OTJ-M0-pjr"/>
@@ -295,7 +295,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IPH-BO-FSv">
                                                 <rect key="frame" x="0.0" y="0.0" width="367" height="22"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Words List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5lT-M6-p4I">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cards List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5lT-M6-p4I">
                                                         <rect key="frame" x="0.0" y="0.0" width="345" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
@@ -391,7 +391,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="57z-XC-LmI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1220" y="-758.77061469265368"/>
+            <point key="canvasLocation" x="1220" y="-410"/>
         </scene>
         <!--New Card View Controller-->
         <scene sceneID="BoD-uH-kDd">
@@ -535,7 +535,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SaC-fH-AzM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2062" y="-757"/>
+            <point key="canvasLocation" x="2014" y="-388"/>
         </scene>
         <!--New Deck View Controller-->
         <scene sceneID="3WC-rt-Kvf">
@@ -594,7 +594,7 @@
                                                     <textField opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d7a-ui-hXj">
                                                         <rect key="frame" x="0.0" y="22.5" width="359" height="30"/>
                                                         <nil key="textColor"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="r07-O5-xID" id="icG-dc-BKj"/>
@@ -611,15 +611,15 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" tag="1002" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="roundedRect" placeholder="(Optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vql-bS-R7a">
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="748" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NDq-3C-mS8">
                                                         <rect key="frame" x="0.0" y="24.5" width="359" height="286.5"/>
-                                                        <nil key="textColor"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                         <connections>
-                                                            <outlet property="delegate" destination="r07-O5-xID" id="R4w-TW-QXK"/>
+                                                            <outlet property="delegate" destination="r07-O5-xID" id="uh8-5o-QbJ"/>
                                                         </connections>
-                                                    </textField>
+                                                    </textView>
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTe-2A-pxE">
@@ -646,14 +646,14 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="coverImage" destination="ZUt-TA-jam" id="KpC-nI-zIY"/>
-                        <outlet property="descTextField" destination="Vql-bS-R7a" id="sFK-Q9-M7S"/>
+                        <outlet property="descTextField" destination="NDq-3C-mS8" id="V4f-1k-zO0"/>
                         <outlet property="saveBtn" destination="HTe-2A-pxE" id="hSh-mo-BDG"/>
                         <outlet property="titleTextField" destination="d7a-ui-hXj" id="Li9-FA-I4T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DlH-aR-Imh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1220" y="-1429"/>
+            <point key="canvasLocation" x="1220" y="-1110"/>
         </scene>
         <!--Card Review View Controller-->
         <scene sceneID="Q51-IZ-fON">
@@ -712,14 +712,14 @@
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J5N-Ve-jHd">
                                                                     <rect key="frame" x="0.0" y="0.0" width="292" height="285.5"/>
                                                                     <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <fontDescription key="fontDescription" name="HiraMinProN-W3" family="Hiragino Mincho ProN" pointSize="32"/>
+                                                                    <fontDescription key="fontDescription" name="HiraMinProN-W3" family="Hiragino Mincho ProN" pointSize="40"/>
                                                                     <color key="textColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsA-eK-EAj">
                                                                     <rect key="frame" x="0.0" y="285.5" width="292" height="285.5"/>
                                                                     <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <fontDescription key="fontDescription" name="HiraMinProN-W3" family="Hiragino Mincho ProN" pointSize="32"/>
+                                                                    <fontDescription key="fontDescription" name="HiraMinProN-W3" family="Hiragino Mincho ProN" pointSize="40"/>
                                                                     <color key="textColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -730,7 +730,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="300" height="577"/>
                                                             <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="tintColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                                             <color key="textColor" red="0.0" green="0.56031829119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -779,7 +779,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qae-eZ-ydf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2157.5999999999999" y="-1479.3103448275863"/>
+            <point key="canvasLocation" x="2015" y="-1042"/>
         </scene>
         <!--Main Tab Controller-->
         <scene sceneID="aTN-vR-QVc">
@@ -841,7 +841,7 @@
     <resources>
         <image name="Discover" width="33" height="33"/>
         <image name="List" width="33" height="33"/>
-        <image name="Placeholder" width="256" height="256"/>
+        <image name="Placeholder" width="170" height="170"/>
         <image name="Red Circle" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>

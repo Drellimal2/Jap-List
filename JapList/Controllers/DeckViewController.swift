@@ -43,6 +43,9 @@ class DeckViewController: UIViewController {
         titleLabel.text = deckdoc[Constants.SnapshotFields.title]
         //coverImage.image = UIImage(data: (deck?.cover)! as Data)
         descTextView.text = deckdoc[Constants.SnapshotFields.desc] ?? "No description"
+        let coverlink = deckdoc[Constants.SnapshotFields.cover]
+        setImage(imageView: self.coverImage, delegate: self.delegate, link: coverlink!, snap: true)
+
         cards = []
         cardSnapshots = []
         defaultStore = delegate.defaultStore
@@ -69,11 +72,8 @@ class DeckViewController: UIViewController {
                             count += 1
                         }
                         
-                        
                     }
                 }
-            
-            
         })
     }
     
@@ -108,10 +108,10 @@ class DeckViewController: UIViewController {
     
     @IBAction func saveUnsave(_ sender: Any) {
         addDeckToUserLists(defaultStore: delegate.defaultStore!, doc: deckDocument!)
-        print("7")
     }
     
     @IBAction func deleteDeck(_ sender: Any) {
+        
         print("deleted")
     }
     
@@ -155,20 +155,23 @@ extension DeckViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell: CardTableViewCell! = tableView.dequeueReusableCell(withIdentifier: "cardTableCell", for: indexPath) as! CardTableViewCell
+        let cell: CardTableViewCell! = tableView.dequeueReusableCell(withIdentifier: Constants.StoryboardIdentifiers.cardRow, for: indexPath) as! CardTableViewCell
         if isSnap! {
             let cardSnapshot = cardSnapshots![indexPath.row]
             let cardDoc = cardSnapshot.data() as! [String : String]
             cell.kanjiLabel.text = cardDoc[Constants.SnapshotFields.kanji] ?? ""
             cell.kanaLabel.text = cardDoc[Constants.SnapshotFields.kana] ?? ""
             cell.translationLabel.text = cardDoc[Constants.SnapshotFields.trans]
+            
         } else {
             let card = cards![indexPath.row]
             cell.kanjiLabel.text = card.kanji
             cell.kanaLabel.text = card.kana
             cell.translationLabel.text = card.translation
         }
-        
+        cell.kanaLabel.isHidden = (cell.kanaLabel.text?.isEmpty)!
+        cell.kanjiLabel.isHidden = (cell.kanjiLabel.text?.isEmpty)!
+
         
         return cell!
     }
@@ -207,6 +210,7 @@ extension DeckViewController {
         }
         
         if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
+            
             print("Deleted \(deletes.count)")
         }
     }

@@ -13,7 +13,7 @@ class NewDeckViewController: UIViewController {
 
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var descTextField: UITextField!
+    @IBOutlet weak var descTextField: UITextView!
     @IBOutlet weak var saveBtn: UIButton!
     var keyboardOnScreen = false
 
@@ -44,6 +44,7 @@ class NewDeckViewController: UIViewController {
         setUIEnabled(false)
         if (titleTextField.text?.isEmpty)! {
             alert(title: "Invalid Title", message: "Title cannot be empty", controller: self)
+            setUIEnabled(true)
             return
         }
         let imageData = UIImageJPEGRepresentation(self.coverImage.image!, 0.8)!
@@ -65,7 +66,7 @@ extension NewDeckViewController {
     
     func setUIEnabled(_ enabled : Bool){
         titleTextField.isEnabled = enabled
-        descTextField.isEnabled = enabled
+        descTextField.isEditable = enabled
         coverImage.isUserInteractionEnabled = enabled
         saveBtn.isEnabled = enabled
         if enabled {
@@ -144,7 +145,7 @@ extension NewDeckViewController {
     
 }
 
-extension NewDeckViewController : UITextFieldDelegate {
+extension NewDeckViewController : UITextFieldDelegate, UITextViewDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
@@ -152,12 +153,16 @@ extension NewDeckViewController : UITextFieldDelegate {
         // Try to find next responder
         if let nextField = self.view.viewWithTag(textField.tag + 1) as? UITextField {
             nextField.becomeFirstResponder()
-        } else {
-            // Not found, so remove keyboard.
-            textField.resignFirstResponder()
         }
+        if let nextField = self.view.viewWithTag(textField.tag + 1) as? UITextView {
+            nextField.becomeFirstResponder()
+        }
+            // Not found, so remove keyboard.
+        textField.resignFirstResponder()
+        
         return false
     }
+    
     
     // MARK: Show/Hide Keyboard
     

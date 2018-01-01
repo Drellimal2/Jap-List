@@ -25,6 +25,8 @@ struct Constants{
         
         static let detailCardView = "detailViewCard"
         
+        static let cardRow = "cardTableCell"
+        
     }
     
     struct SnapshotFields {
@@ -43,6 +45,16 @@ struct Constants{
         
         
         
+    }
+    
+    
+    struct TextLengths {
+        
+        static let kanji = 40
+        static let kana = 40
+        static let trans = 60
+        static let title = 30
+        static let desc = 100
     }
     
     
