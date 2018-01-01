@@ -19,6 +19,7 @@ class DiscoverViewController: UIViewController {
     @IBOutlet weak var navbar: UINavigationItem!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     var user : User?
+    let delegate = UIApplication.shared.delegate as! AppDelegate
     var decks : [DocumentSnapshot]! = []
     var defaultStore : Firestore? = nil
     let imageCache = NSCache<NSString, UIImage>()
@@ -40,7 +41,7 @@ class DiscoverViewController: UIViewController {
     }
     
     @IBAction func signIn(_ sender: Any) {
-        loginSession()
+        self.loginSession()
     }
     func firestoreSetup(){
         let settings = FirestoreSettings()
@@ -164,8 +165,8 @@ class DiscoverViewController: UIViewController {
         // listen for changes in the authorization state
         _authHandle = Auth.auth().addStateDidChangeListener { (auth: Auth, user: User?) in
             // refresh table data
-            self.decks.removeAll(keepingCapacity: false)
-            self.onlineDecks.reloadData()
+//            self.decks.removeAll(keepingCapacity: false)
+//            self.onlineDecks.reloadData()
             
             // check if there is a current user
             if let activeUser = user {
@@ -177,7 +178,6 @@ class DiscoverViewController: UIViewController {
             } else {
                 // user must sign in
                 self.signedInStatus(isSignedIn: false)
-                self.loginSession()
             }
         }
     }
@@ -209,28 +209,11 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
         
         let deck = deckSnapshot.data() as! [String: String]
         let title = deck[Constants.SnapshotFields.title]
-        let desc = deck[Constants.SnapshotFields.desc] ?? ""
-        print(title)
-        print(desc)
+        let _ = deck[Constants.SnapshotFields.desc] ?? ""
         cell.title.text = title
         if let cover_url = deckSnapshot[Constants.SnapshotFields.cover] {
-            Storage.storage().reference(forURL :  cover_url as! String).getData(maxSize: INT64_MAX, completion: { (data, error) in
-                guard error == nil else{
-                    performUIUpdatesOnMain {
-                        alert(title: "Error Loading Image", message: "Could not load cover image",controller: self )
-                        
-                    }
-                    return
-                }
-                performUIUpdatesOnMain {
-                    let coverImage = UIImage.init(data: data!, scale : 50)
-                    cell.coverImage.image = coverImage
-                    
-                }
-                
-                
-            })
-            
+            setImage(imageView: cell.coverImage, delegate: self.delegate, link: cover_url as! String, snap: true)
+          
         
         }
         
@@ -238,7 +221,6 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("heyo")
         collectionView.deselectItem(at: indexPath, animated: true)
         selDeck = decks[indexPath.row]
         performSegue(withIdentifier: Constants.SegueIdentifiers.deckDetails, sender: self)

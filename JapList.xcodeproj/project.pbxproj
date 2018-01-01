@@ -18,7 +18,6 @@
 		35CBBDE21FE820C200371B4B /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE11FE820C200371B4B /* MainTabController.swift */; };
 		35CBBDE41FE8226100371B4B /* MyDecksController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE31FE8226100371B4B /* MyDecksController.swift */; };
 		35CBBDE61FE8234200371B4B /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE51FE8234200371B4B /* DiscoverViewController.swift */; };
-		35CBBDE81FE8252500371B4B /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE71FE8252500371B4B /* AccountViewController.swift */; };
 		35CBBDEA1FE8495800371B4B /* NewDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE91FE8495800371B4B /* NewDeckViewController.swift */; };
 		35CBBDEC1FE8497F00371B4B /* NewCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDEB1FE8497F00371B4B /* NewCardViewController.swift */; };
 		35CBBDEE1FE84D5C00371B4B /* DeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDED1FE84D5C00371B4B /* DeckViewController.swift */; };
@@ -52,7 +51,6 @@
 		35CBBDE11FE820C200371B4B /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		35CBBDE31FE8226100371B4B /* MyDecksController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDecksController.swift; sourceTree = "<group>"; };
 		35CBBDE51FE8234200371B4B /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
-		35CBBDE71FE8252500371B4B /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		35CBBDE91FE8495800371B4B /* NewDeckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDeckViewController.swift; sourceTree = "<group>"; };
 		35CBBDEB1FE8497F00371B4B /* NewCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCardViewController.swift; sourceTree = "<group>"; };
 		35CBBDED1FE84D5C00371B4B /* DeckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckViewController.swift; sourceTree = "<group>"; };
@@ -155,7 +153,6 @@
 				35CBBDE11FE820C200371B4B /* MainTabController.swift */,
 				35CBBDE31FE8226100371B4B /* MyDecksController.swift */,
 				35CBBDE51FE8234200371B4B /* DiscoverViewController.swift */,
-				35CBBDE71FE8252500371B4B /* AccountViewController.swift */,
 				35CBBDE91FE8495800371B4B /* NewDeckViewController.swift */,
 				35CBBDEB1FE8497F00371B4B /* NewCardViewController.swift */,
 				35CBBDED1FE84D5C00371B4B /* DeckViewController.swift */,
@@ -363,7 +360,6 @@
 				35CBBDF61FE8678300371B4B /* Card.swift in Sources */,
 				35CBBDEA1FE8495800371B4B /* NewDeckViewController.swift in Sources */,
 				357B8BB21FE2E04D00D2DEC8 /* AppDelegate.swift in Sources */,
-				35CBBDE81FE8252500371B4B /* AccountViewController.swift in Sources */,
 				35CBBE011FEBA41800371B4B /* GCDBlackBox.swift in Sources */,
 				35155FA11FF9710700CAEA74 /* CardReviewViewController.swift in Sources */,
 				35FD73631FF69F5A006E9EC3 /* DeckCollectionViewCell.swift in Sources */,

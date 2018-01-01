@@ -12,7 +12,7 @@ import CoreData
 
 @objc(Card)
 public class Card: NSManagedObject {
-    convenience init(kana: String, kanji : String = "kanji", romaji : String = "romaji", translation : String, context: NSManagedObjectContext) {
+    convenience init(kana: String, kanji : String = "", romaji : String = "romaji", translation : String, context: NSManagedObjectContext) {
         
         // An EntityDescription is an object that has access to all
         // the information you provided in the Entity part of the model

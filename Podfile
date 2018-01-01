@@ -7,8 +7,9 @@ pod 'Firebase/Firestore'
 pod 'Firebase/Core'
 # pod 'Firebase/Database'
 pod 'Firebase/Auth'
-pod 'Firebase/RemoteConfig'
+# pod 'Firebase/RemoteConfig'
 pod 'FirebaseUI'
+pod 'GoogleSignIn'
 
 target 'JapList' do
   		

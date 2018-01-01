@@ -389,7 +389,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="57z-XC-LmI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1220" y="-410"/>
+            <point key="canvasLocation" x="1220" y="-120"/>
         </scene>
         <!--New Card View Controller-->
         <scene sceneID="BoD-uH-kDd">
@@ -420,25 +420,9 @@
                                                         <color key="textColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tdp-OJ-3V9">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" usesAttributedText="YES" borderStyle="roundedRect" placeholder="漢字" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tdp-OJ-3V9">
                                                         <rect key="frame" x="0.0" y="20.5" width="367" height="30"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="今日は">
-                                                                <attributes>
-                                                                    <color key="NSBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <color key="NSColor" red="0.46666999999999997" green="0.46666999999999997" blue="0.46666999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <font key="NSFont" size="24" name="HiraMinProN-W3"/>
-                                                                    <real key="NSKern" value="0.0"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                        <tabStops/>
-                                                                    </paragraphStyle>
-                                                                    <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <array key="NSWritingDirection">
-                                                                        <integer value="0"/>
-                                                                    </array>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
+                                                        <attributedString key="attributedText"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="c3w-FJ-LbX" id="Eae-R3-pQv"/>
@@ -533,7 +517,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SaC-fH-AzM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2014" y="-388"/>
+            <point key="canvasLocation" x="2015" y="-92"/>
         </scene>
         <!--New Deck View Controller-->
         <scene sceneID="3WC-rt-Kvf">
