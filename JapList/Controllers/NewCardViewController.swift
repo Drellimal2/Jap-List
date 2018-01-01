@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NewCardViewController: UIViewController {
 
@@ -25,6 +26,7 @@ class NewCardViewController: UIViewController {
         super.viewDidLoad()
         subscribeToKeyboardNotifications()
         stack = delegate.stack
+        subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), object: stack?.context,  controller: self)
     }
 
     @IBAction func cancelAction(_ sender: Any) {
@@ -45,10 +47,10 @@ class NewCardViewController: UIViewController {
         let kana = kanaTextField.text ?? ""
         let kanji = kanjiTextField.text ?? ""
         let trans = translationTextField.text
-        
-        let newCard = Card(kana: kana, kanji: kanji, romaji: "", translation: trans!, context: (stack?.context)!)
-        newCard.deck = deck
-        stack?.save()
+        newCard(deck :deck!, kanji: kanji,trans : trans, kana : kana, stack : stack!)
+//        let newCard = Card(kana: kana, kanji: kanji, romaji: "", translation: trans!, context: (stack?.context)!)
+//        newCard.deck = deck
+//        stack?.save()
         dismiss(animated: true, completion: nil)
         
     }
@@ -56,6 +58,47 @@ class NewCardViewController: UIViewController {
 
 
 }
+
+extension NewCardViewController {
+    @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else { return }
+        if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
+            for insert in inserts {
+                print("Inserts")
+                print(inserts.count)
+                if insert is Card {
+                    
+                    if (insert as! Card).deck! == self.deck!{
+                        performUIUpdatesOnMain {
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                    
+                }
+            }
+            
+            
+        }
+        
+        if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
+            
+            for update in updates {
+                if update is Deck {
+                    
+                    
+                }
+            }
+            
+        }
+        
+        if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
+            
+            
+        }
+    }
+    
+}
+
 
 extension NewCardViewController : UITextFieldDelegate {
     

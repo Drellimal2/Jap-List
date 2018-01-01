@@ -69,6 +69,20 @@ func updateLocalDeck(deck :Deck, title: String?,desc : String?, cover : Data, st
     
 }
 
+func newCard(deck :Deck, kanji: String?,trans : String?, kana : String?, stack : CoreDataStack){
+    
+    DispatchQueue.main.async {
+        stack.performBackgroundBatchOperation{
+            (workingContext) in
+            let newdeck = workingContext.object(with: deck.objectID) as! Deck
+            let newcard = Card(kana: kana!, kanji: kanji!, romaji: "", translation: trans!, context: workingContext)
+            newcard.deck = newdeck
+            
+        }
+    }
+    
+}
+
 func getObjectIdUniqueString(obj : NSManagedObject)->String{
     return obj.objectID.uriRepresentation().pathComponents[obj.objectID.uriRepresentation().pathComponents.count - 1]
 }
