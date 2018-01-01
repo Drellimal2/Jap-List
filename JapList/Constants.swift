@@ -58,6 +58,16 @@ struct Constants{
     }
     
     
+    struct UserDefaultKeys {
+        
+        static let firstTime  = "firstTime"
+        static let firstDeck = "firstDeck"
+        static let firstReview = "firstReview"
+        static let firstCard = "firstCard"
+        static let firstDeckDetails = "firstDeckDetails"
+    }
+    
+    
     
     
     

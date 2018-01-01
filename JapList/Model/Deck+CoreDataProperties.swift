@@ -2,7 +2,7 @@
 //  Deck+CoreDataProperties.swift
 //  JapList
 //
-//  Created by Dane Miller on 12/18/17.
+//  Created by Dane Miller on 12/31/17.
 //  Copyright © 2017 Dane Miller. All rights reserved.
 //
 //
@@ -17,9 +17,10 @@ extension Deck {
         return NSFetchRequest<Deck>(entityName: "Deck")
     }
 
-    @NSManaged public var name: String?
-    @NSManaged public var createdDate: NSDate?
     @NSManaged public var cover: NSData?
+    @NSManaged public var createdDate: NSDate?
+    @NSManaged public var desc: String?
+    @NSManaged public var name: String?
     @NSManaged public var cards: NSSet?
 
 }

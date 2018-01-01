@@ -16,9 +16,9 @@ class CardReviewViewController: UIViewController {
     @IBOutlet weak var cardsCollectionView: UICollectionView!
     
     var deck : Deck? = nil
-    var cards : [Card]? = nil
+    var cards : [Card]? = []
     var deckDocument : DocumentSnapshot? = nil
-    var cardSnapshots : [DocumentSnapshot]? = nil
+    var cardSnapshots : [DocumentSnapshot]? = []
     var isSnap :Bool? = false
     var cellWidth : CGFloat?
     
@@ -28,23 +28,48 @@ class CardReviewViewController: UIViewController {
         super.viewDidLoad()
         setupFlowLayout()
         setup()
+        setInitProg()
         
-        progressView.progress = 0.0
     }
+    
+    func setInitProg(){
+        var progress : Float = 0
+        if isSnap!{
+            progress = Float(Float(1) / Float((cardSnapshots?.count)!))
+            
+        } else {
+            progress = Float(Float(1) / Float((cards?.count)!))
 
+        }
+        performUIUpdatesOnMain {
+            self.progressView.setProgress(progress, animated: true)
+            
+        }
+    }
     func setup(){
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            self.dismiss(animated: true, completion: nil)
+        })
         if deck == nil && deckDocument != nil{
             isSnap = true
             if cardSnapshots?.count == 0 {
-                alert(title: "No Cards", message: "No cards to review. You will now be redirected back.", controller: self)
-                dismiss(animated: true, completion: nil)
+                performUIUpdatesOnMain {
+                    
+                    alert(title: "No Cards", message: "No cards to review. You will now be redirected back.", controller: self, actions: [okAction])
+                    
+                }
             }
             return
         } else if deck != nil && deckDocument == nil{
             isSnap = false
+
             if cards?.count == 0 {
-                alert(title: "No Cards", message: "No cards to review. You will now be redirected back.", controller: self)
-                dismiss(animated: true, completion: nil)
+                performUIUpdatesOnMain {
+                    
+                    alert(title: "No Cards", message: "No cards to review. You will now be redirected back.", controller: self, actions: [okAction])
+
+                }
+                
             }
             return
         } else {
@@ -143,7 +168,12 @@ extension CardReviewViewController : UICollectionViewDelegate, UICollectionViewD
         let indexPaths = cardsCollectionView.indexPathsForVisibleItems
         if indexPaths.count == 1 {
             let index = indexPaths[0].row
-            progressView.progress = Float(index / cardsCollectionView.numberOfItems(inSection: 0))
+            print(index)
+            let progress = Float(Float(index+1 ) / Float(cardsCollectionView.numberOfItems(inSection: 0)))
+            performUIUpdatesOnMain {
+                self.progressView.setProgress(progress, animated: true)
+
+            }
         }
         print("calc")
     }

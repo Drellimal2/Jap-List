@@ -25,4 +25,34 @@ func getAllDecks(_ predicate : NSPredicate? = nil, moc : NSManagedObjectContext)
     
 }
 
+func deleteLocalDeck(deck :Deck, stack : CoreDataStack){
+    
+    DispatchQueue.main.async {
+        stack.performBackgroundBatchOperation{
+            (workingContext) in
+            let decktodelete = workingContext.object(with: deck.objectID) as! Deck
+            
+            workingContext.delete(decktodelete as NSManagedObject)
+        }
+    }
+    
+}
+
+func deleteLocalCard(deck :Deck, card : Card, stack : CoreDataStack){
+    
+    DispatchQueue.main.async {
+        stack.performBackgroundBatchOperation{
+            (workingContext) in
+            let newdeck = workingContext.object(with: deck.objectID) as! Deck
+            let cardtodelete = workingContext.object(with: card.objectID) as! Card
+            if (newdeck.cards?.contains(cardtodelete))!{
+                workingContext.delete(cardtodelete as NSManagedObject)
+
+            }
+        }
+    }
+    
+}
+
+
 

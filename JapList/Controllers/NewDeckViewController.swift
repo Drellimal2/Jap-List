@@ -25,6 +25,7 @@ class NewDeckViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         stack = delegate.stack
+        firstDeckCheck()
         setup()
 
     }
@@ -34,6 +35,12 @@ class NewDeckViewController: UIViewController {
         picker.delegate = self as UIImagePickerControllerDelegate & UINavigationControllerDelegate
         picker.sourceType = .photoLibrary
         present(picker, animated: true, completion: nil)
+    }
+    
+    func firstDeckCheck(){
+        if isFirstDeck(){
+            alert(title: "Hint", message: "Tap Image to choose a new one.", controller: self)
+        }
     }
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -49,10 +56,11 @@ class NewDeckViewController: UIViewController {
         }
         let imageData = UIImageJPEGRepresentation(self.coverImage.image!, 0.8)!
         let name = self.titleTextField.text!
+        let desc = self.descTextField.text!
         stack?.performBackgroundBatchOperation{
             (workingContext) in
         
-            let newDeck = Deck(cover: imageData, title : name , context: workingContext)
+            let newDeck = Deck(cover: imageData, title : name , desc : desc, context: workingContext)
             self.timeAdded = newDeck.createdDate
         }
             

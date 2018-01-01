@@ -10,6 +10,29 @@ import Foundation
 import UIKit
 import Firebase
 
+func isFirstTime()->Bool{
+    if UserDefaults.standard.object(forKey: Constants.UserDefaultKeys.firstTime) == nil{
+        UserDefaults.standard.set(false, forKey: Constants.UserDefaultKeys.firstTime)
+        UserDefaults.standard.set(true, forKey: Constants.UserDefaultKeys.firstCard)
+        UserDefaults.standard.set(true, forKey: Constants.UserDefaultKeys.firstDeck)
+        UserDefaults.standard.set(true, forKey: Constants.UserDefaultKeys.firstReview)
+        UserDefaults.standard.set(true, forKey: Constants.UserDefaultKeys.firstDeckDetails)
+        
+        return true
+    }
+    return false
+    
+}
+
+func isFirstDeck()->Bool{
+    if UserDefaults.standard.bool(forKey: Constants.UserDefaultKeys.firstDeck){
+        UserDefaults.standard.set(false, forKey: Constants.UserDefaultKeys.firstDeck)
+        return true
+    } else {
+        return false
+    }
+}
+
 
 func subscribeToNotification(_ name: NSNotification.Name, selector: Selector, object : Any? = nil, controller : UIViewController ) {
     NotificationCenter.default.addObserver(controller, selector: selector, name: name, object: object)

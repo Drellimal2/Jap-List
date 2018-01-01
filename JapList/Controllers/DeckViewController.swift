@@ -19,7 +19,7 @@ class DeckViewController: UIViewController {
     var deckDocument : DocumentSnapshot? = nil
     var cardSnapshots : [DocumentSnapshot]? = nil
     @IBOutlet weak var coverImage: UIImageView!
-    @IBOutlet weak var descTextView: UITextView!
+    @IBOutlet weak var descLabel: UILabel!
     var defaultStore : Firestore? = nil
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var wordTable: UITableView!
@@ -42,7 +42,7 @@ class DeckViewController: UIViewController {
         let deckdoc = deckDocument?.data() as! [String : String]
         titleLabel.text = deckdoc[Constants.SnapshotFields.title]
         //coverImage.image = UIImage(data: (deck?.cover)! as Data)
-        descTextView.text = deckdoc[Constants.SnapshotFields.desc] ?? "No description"
+        descLabel.text = deckdoc[Constants.SnapshotFields.desc] ?? "No description"
         let coverlink = deckdoc[Constants.SnapshotFields.cover]
         setImage(imageView: self.coverImage, delegate: self.delegate, link: coverlink!, snap: true)
 
@@ -80,11 +80,12 @@ class DeckViewController: UIViewController {
     func setupCoreData(){
         titleLabel.text = deck?.name
         coverImage.image = UIImage(data: (deck?.cover)! as Data)
-        descTextView.text = deck?.description
+        descLabel.text = deck?.desc
         cards = Array((deck?.cards)!) as? [Card]
         reviewBtn.isHidden = false
         deleteBtn.isHidden = false
         otherBtn.isHidden = true
+        wordTable.allowsMultipleSelectionDuringEditing = false
         
     }
     func setup(){
@@ -111,8 +112,13 @@ class DeckViewController: UIViewController {
     }
     
     @IBAction func deleteDeck(_ sender: Any) {
-        
-        print("deleted")
+        let okAction : UIAlertAction  = UIAlertAction(title: "Yes, I'm Sure", style: .destructive, handler: { (action) in
+            
+            deleteLocalDeck(deck: self.deck!, stack: self.stack!)
+            
+        })
+        let cancelAction : UIAlertAction  = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alert(title: "Are you sure?", message: "This will delete the deck permanently!", controller: self, actions: [okAction, cancelAction])
     }
     
 }
@@ -176,6 +182,22 @@ extension DeckViewController : UITableViewDelegate, UITableViewDataSource {
         return cell!
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return !isSnap!
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            print("deleted")
+            let card = cards![indexPath.row]
+            let okAction : UIAlertAction  = UIAlertAction(title: "Yes, I'm Sure", style: .destructive, handler: { (action) in
+                deleteLocalCard(deck: self.deck!, card: card, stack: self.stack!)
+            })
+            let cancelAction : UIAlertAction  = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            alert(title: "Are you sure?", message: "This will delete the card permanently!", controller: self, actions: [okAction, cancelAction])
+        }
+    }
+    
     
 }
 
@@ -210,7 +232,27 @@ extension DeckViewController {
         }
         
         if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
-            
+            for del in deletes {
+                if del is Card {
+                    if (cards?.contains(del as! Card))!{
+                        
+                        performUIUpdatesOnMain {
+                            let ind = self.cards?.index(of: del as! Card)
+                            self.cards?.remove(at: ind!)
+                        
+                            self.wordTable.deleteRows(at: [IndexPath(row: ind!, section : 0)], with: .fade)
+                        }
+                    }
+                }
+                if del is Deck{
+                    if del.objectID == deck?.objectID{
+                        performUIUpdatesOnMain {
+                        
+                        self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                }
+            }
             print("Deleted \(deletes.count)")
         }
     }

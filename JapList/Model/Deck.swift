@@ -12,7 +12,7 @@ import CoreData
 
 @objc(Deck)
 public class Deck: NSManagedObject {
-    convenience init(cover: Data, title : String = "list", context: NSManagedObjectContext) {
+    convenience init(cover: Data, title : String = "list", desc : String = "No Description set", context: NSManagedObjectContext) {
         
         // An EntityDescription is an object that has access to all
         // the information you provided in the Entity part of the model
@@ -21,6 +21,7 @@ public class Deck: NSManagedObject {
             self.init(entity: ent, insertInto: context)
             self.cover = cover as NSData
             self.name = title
+            self.desc = desc
             self.createdDate = Date() as NSDate
         } else {
             fatalError("Unable to find Entity name!")

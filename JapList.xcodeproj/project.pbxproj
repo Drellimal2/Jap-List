@@ -10,6 +10,7 @@
 		35155F9F1FF8AA9C00CAEA74 /* FirebaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155F9E1FF8AA9C00CAEA74 /* FirebaseUtils.swift */; };
 		35155FA11FF9710700CAEA74 /* CardReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155FA01FF9710700CAEA74 /* CardReviewViewController.swift */; };
 		35155FA31FF9713700CAEA74 /* CardReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155FA21FF9713700CAEA74 /* CardReviewCollectionViewCell.swift */; };
+		35155FAB1FF9D5A100CAEA74 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35155FA91FF9D5A100CAEA74 /* Model.xcdatamodeld */; };
 		357B8BB21FE2E04D00D2DEC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */; };
 		357B8BB71FE2E04D00D2DEC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB51FE2E04D00D2DEC8 /* Main.storyboard */; };
 		357B8BB91FE2E04D00D2DEC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 357B8BB81FE2E04D00D2DEC8 /* Assets.xcassets */; };
@@ -21,7 +22,6 @@
 		35CBBDEA1FE8495800371B4B /* NewDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDE91FE8495800371B4B /* NewDeckViewController.swift */; };
 		35CBBDEC1FE8497F00371B4B /* NewCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDEB1FE8497F00371B4B /* NewCardViewController.swift */; };
 		35CBBDEE1FE84D5C00371B4B /* DeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDED1FE84D5C00371B4B /* DeckViewController.swift */; };
-		35CBBDF11FE84DFC00371B4B /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDEF1FE84DFC00371B4B /* Model.xcdatamodeld */; };
 		35CBBDF61FE8678300371B4B /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDF21FE8678300371B4B /* Card.swift */; };
 		35CBBDF71FE8678300371B4B /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDF31FE8678300371B4B /* Card+CoreDataProperties.swift */; };
 		35CBBDF81FE8678300371B4B /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CBBDF41FE8678300371B4B /* Deck.swift */; };
@@ -42,6 +42,7 @@
 		35155F9E1FF8AA9C00CAEA74 /* FirebaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtils.swift; sourceTree = "<group>"; };
 		35155FA01FF9710700CAEA74 /* CardReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReviewViewController.swift; sourceTree = "<group>"; };
 		35155FA21FF9713700CAEA74 /* CardReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardReviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		35155FAA1FF9D5A100CAEA74 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		357B8BAE1FE2E04D00D2DEC8 /* JapList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JapList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		357B8BB11FE2E04D00D2DEC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		357B8BB61FE2E04D00D2DEC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -55,7 +56,6 @@
 		35CBBDE91FE8495800371B4B /* NewDeckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDeckViewController.swift; sourceTree = "<group>"; };
 		35CBBDEB1FE8497F00371B4B /* NewCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCardViewController.swift; sourceTree = "<group>"; };
 		35CBBDED1FE84D5C00371B4B /* DeckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckViewController.swift; sourceTree = "<group>"; };
-		35CBBDF01FE84DFC00371B4B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		35CBBDF21FE8678300371B4B /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		35CBBDF31FE8678300371B4B /* Card+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		35CBBDF41FE8678300371B4B /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
@@ -130,9 +130,9 @@
 				35CBBE061FEBBD5900371B4B /* DataUtils.swift */,
 				35CBBDF21FE8678300371B4B /* Card.swift */,
 				35CBBDF31FE8678300371B4B /* Card+CoreDataProperties.swift */,
+				35155FA91FF9D5A100CAEA74 /* Model.xcdatamodeld */,
 				35CBBDF41FE8678300371B4B /* Deck.swift */,
 				35CBBDF51FE8678300371B4B /* Deck+CoreDataProperties.swift */,
-				35CBBDEF1FE84DFC00371B4B /* Model.xcdatamodeld */,
 				35CBBDFA1FE8B50300371B4B /* CoreDataStack.swift */,
 			);
 			path = Model;
@@ -368,6 +368,7 @@
 				35155FA11FF9710700CAEA74 /* CardReviewViewController.swift in Sources */,
 				35FD73631FF69F5A006E9EC3 /* DeckCollectionViewCell.swift in Sources */,
 				35CBBDFD1FE8B6BD00371B4B /* Constants.swift in Sources */,
+				35155FAB1FF9D5A100CAEA74 /* Model.xcdatamodeld in Sources */,
 				35CBBDFF1FEB8E5C00371B4B /* Utils.swift in Sources */,
 				35CBBDE41FE8226100371B4B /* MyDecksController.swift in Sources */,
 				35CBBE071FEBBD5900371B4B /* DataUtils.swift in Sources */,
@@ -377,7 +378,6 @@
 				35CBBE031FEBA7C300371B4B /* DeckTableViewCell.swift in Sources */,
 				35CBBDF81FE8678300371B4B /* Deck.swift in Sources */,
 				35FD735F1FF21AC4006E9EC3 /* CardTableViewCell.swift in Sources */,
-				35CBBDF11FE84DFC00371B4B /* Model.xcdatamodeld in Sources */,
 				35CBBDF71FE8678300371B4B /* Card+CoreDataProperties.swift in Sources */,
 				35CBBDE61FE8234200371B4B /* DiscoverViewController.swift in Sources */,
 				35CBBDEE1FE84D5C00371B4B /* DeckViewController.swift in Sources */,
@@ -569,12 +569,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		35CBBDEF1FE84DFC00371B4B /* Model.xcdatamodeld */ = {
+		35155FA91FF9D5A100CAEA74 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				35CBBDF01FE84DFC00371B4B /* Model.xcdatamodel */,
+				35155FAA1FF9D5A100CAEA74 /* Model.xcdatamodel */,
 			);
-			currentVersion = 35CBBDF01FE84DFC00371B4B /* Model.xcdatamodel */;
+			currentVersion = 35155FAA1FF9D5A100CAEA74 /* Model.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

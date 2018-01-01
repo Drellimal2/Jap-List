@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import Firebase
+import FirebaseAuthUI
+import FirebaseGoogleAuthUI
 
 class MyDecksController: UIViewController {
 
@@ -21,21 +23,43 @@ class MyDecksController: UIViewController {
     var deckSnapshots : [DocumentSnapshot] = []
     var selDeck : Deck? = nil
     var selSnap : DocumentSnapshot? = nil
-    
+    fileprivate var _authHandle: AuthStateDidChangeListenerHandle!
     override func viewDidLoad() {
         super.viewDidLoad()
         stack = delegate.stack
         defaultStore = delegate.defaultStore
         decks = getAllDecks(moc: (stack?.context)!)
         subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), object: stack?.context)
-//        populateDeck()
-        addListeners()
+        configureAuth()
+        if isFirstTime(){
+            alert(title: "Welcome", message: "Hi there, I see it's your first time using the app. So you have no decks yet. Why not click the plus in the top right corner to create your first deck!", controller: self)
+        }
     }
 
     @IBAction func addDeck(_ sender: Any) {
         performSegue(withIdentifier: Constants.SegueIdentifiers.newDeck, sender: self)
     }
     
+    func configureAuth() {
+        let provider: [FUIAuthProvider] = [FUIGoogleAuth()]
+        FUIAuth.defaultAuthUI()?.providers = provider
+        
+        // listen for changes in the authorization state
+        _authHandle = Auth.auth().addStateDidChangeListener { (auth: Auth, user: User?) in
+            // refresh table data
+            
+            // check if there is a current user
+            if let activeUser = user {
+                // check if the current app user is the current FIRUser
+                print("\(String(describing: activeUser.email!)) is logged in.")
+                self.addListeners()
+            } else {
+                // user must sign in
+                print("User not logged in.")
+            }
+        }
+    }
+
     
     
     
@@ -58,11 +82,8 @@ class MyDecksController: UIViewController {
                                 self.deckTableView.insertRows(at: [IndexPath(row: (self.deckSnapshots.count)-1, section: 1)], with: .automatic)
                             }
                         })
-                        
                         count += 1
                     }
-                    
-                    
                 }
             }
         }
@@ -71,7 +92,7 @@ class MyDecksController: UIViewController {
     }
     
     func addListeners(){
-        getUserListSnapshot(defaultStore: defaultStore!).addSnapshotListener({ (querySnapshot, error) in
+        getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
                 print("Error fetching updates")
                 return
@@ -255,6 +276,15 @@ extension MyDecksController {
         
         if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
             print("Deleted \(deletes.count)")
+            for deleted in deletes{
+            if deleted is Deck {
+                if (self.decks.contains(deleted as! Deck)){
+                    let ind = self.decks.index(of: deleted as! Deck)
+                    self.decks.remove(at: ind!)
+                    self.deckTableView.deleteRows(at: [IndexPath(row : ind!, section :0)], with: .automatic)
+                }
+            }
+            }
         }
     }
   

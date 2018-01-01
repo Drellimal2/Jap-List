@@ -18,10 +18,12 @@ func getCurrentUser()->User?{
     return Auth.auth().currentUser
 }
 
-func getUserListSnapshot(defaultStore : Firestore) -> CollectionReference{
-    let currentUser = getCurrentUser()?.uid
-
-    return defaultStore.collection("user_decks").document(currentUser!).collection("decks")
+func getUserListSnapshot(defaultStore : Firestore) -> CollectionReference?{
+    if let currentUser = getCurrentUser()?.uid {
+        return defaultStore.collection("user_decks").document(currentUser).collection("decks")
+    } else {
+        return nil
+    }
 }
 
 func getUserPublicLists(defaultStore : Firestore, controller : UIViewController, completionHandler : @escaping (_ querySnapshot :QuerySnapshot?, _ error : Error?)->Void){
