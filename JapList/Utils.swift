@@ -34,6 +34,23 @@ func isFirstDeck()->Bool{
 }
 
 
+
+func monitorNetworkViaUI(_ show : Bool){
+    performUIUpdatesOnMain {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = show
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 func subscribeToNotification(_ name: NSNotification.Name, selector: Selector, object : Any? = nil, controller : UIViewController ) {
     NotificationCenter.default.addObserver(controller, selector: selector, name: name, object: object)
 }

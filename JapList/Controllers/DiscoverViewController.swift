@@ -15,77 +15,120 @@ import FirebaseGoogleAuthUI
 class DiscoverViewController: UIViewController {
 
     @IBOutlet weak var onlineDecks: UICollectionView!
-    
     @IBOutlet weak var navbar: UINavigationItem!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
-    var user : User?
-    let delegate = UIApplication.shared.delegate as! AppDelegate
-    var decks : [DocumentSnapshot]! = []
-    var defaultStore : Firestore? = nil
-    let imageCache = NSCache<NSString, UIImage>()
-    var selDeck :DocumentSnapshot? = nil
-    fileprivate var _authHandle: AuthStateDidChangeListenerHandle!
-
-    @IBOutlet weak var signInBackgroundImage: UIImageView!
     
+    @IBOutlet weak var signInBackgroundImage: UIImageView!
     @IBOutlet weak var backgroundBlur: UIVisualEffectView!
     @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var logoutBtn: UIBarButtonItem!
+    
+    
+    private let refreshControl = UIRefreshControl()
+
+    
+    let delegate = UIApplication.shared.delegate as! AppDelegate
+    var user : User?
+    var decks : [DocumentSnapshot]! = []
+    var defStore : Firestore? = nil
+    var defAuth : FUIAuth? = nil
+    var selDeck : DocumentSnapshot? = nil
+    fileprivate var _authHandle: AuthStateDidChangeListenerHandle!
+    let ActInd = MyActInd()
+    var listenersActive : Bool? = false
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupRefreshLayout()
         setupFlowLayout()
         firestoreSetup()
-//        populateDeck()
-//        addListeners()
         configureAuth()
+        
     }
+    
+    
+    
+    
+    @IBAction func logout(_ sender: Any) {
+        print("Logged out")
+        try! Auth.auth().signOut()
+    }
+    
     
     @IBAction func signIn(_ sender: Any) {
         self.loginSession()
     }
+    
+    
     func firestoreSetup(){
-
-        defaultStore = delegate.defaultStore
-
+        
+        defStore = Firestore.firestore()
         
     }
     
-    func populateDeck(){
-        
-        defaultStore?.collection("public_decks").getDocuments() { (querySnapshot, err) in
+    func populateDeck(_ reloading : Bool = false){
+        ActInd.show(onlineDecks!)
+        defStore?.collection("public_decks").getDocuments() { (querySnapshot, err) in
+            
+            performUIUpdatesOnMain {
+                self.ActInd.hide()
+                if reloading{
+                    self.refreshControl.endRefreshing()
+                }
+            }
+            print("all added")
+            
             if let err = err {
                 print("Error getting documents: \(err)")
                 alert(title: "Error", message: "Could not retrieve decks.", controller: self)
+                self.addListeners()
+
             } else {
                 performUIUpdatesOnMain {
-                print(querySnapshot!.documents.count)
-                var count = 0
-                for document in querySnapshot!.documents {
-                    self.decks.append(document)
-                    self.onlineDecks.insertItems(at: [IndexPath(row: (self.decks.count)-1, section: 0)])
+//                    self.decks.removeAll()
+//                    self.onlineDecks.reloadData()
                     
-                    count += 1
-                }
+                    for document in querySnapshot!.documents {
+                        if !self.decks.contains(document){
+                            self.decks.append(document)
+                            
+                            self.onlineDecks.insertItems(at: [IndexPath(row: (self.decks.count)-1, section: 0)])
+                        } else {
+                            let ind = self.decks.index(of: document)
+                            self.decks![ind!] = document
+                        }
+                    }
                 
                     self.onlineDecks.reloadData()
+                    if !self.listenersActive!{
+                        self.addListeners()
+                        self.listenersActive = true
+                    }
 
                 }
             }
         }
-
     }
     
     func addListeners(){
-        defaultStore?.collection("public_decks").addSnapshotListener({ (querySnapshot, error) in
+        let options = QueryListenOptions()
+        options.includeQueryMetadataChanges(true)
+
+        defStore?.collection("public_decks").addSnapshotListener(options: options){ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
                 print("Error fetching updates")
                 return
             }
             snapshot.documentChanges.forEach({ (diff) in
                 if(diff.type == .added){
-                    performUIUpdatesOnMain {
-                        self.decks.append(diff.document)
-                        self.onlineDecks.insertItems(at: [IndexPath(row: self.decks.count - 1, section : 0 )])
+                    print("added")
+                    if !self.decks.contains(diff.document){
+                        performUIUpdatesOnMain {
+                            self.decks.append(diff.document)
+                            self.onlineDecks.insertItems(at: [IndexPath(row: self.decks.count - 1, section : 0 )])
+                        }
                     }
                 }
                 if(diff.type == .modified){
@@ -108,7 +151,7 @@ class DiscoverViewController: UIViewController {
                     
                 }
             })
-        })
+        }
         
     }
     
@@ -124,18 +167,12 @@ class DiscoverViewController: UIViewController {
         }
         return -1
         
-        
     }
     
-    func setupFlowLayout(){
-        let space:CGFloat = 8.0
-        let dimension = (onlineDecks.frame.size.width - (2 * space)) / 3.0
-        
-        flowLayout.minimumInteritemSpacing = space
-        flowLayout.minimumLineSpacing = space
-        flowLayout.itemSize = CGSize(width: dimension, height: 200.0)
-        flowLayout.scrollDirection = .vertical
+    @objc private func refreshDeckData(_ sender: Any) {
+        populateDeck(true)
     }
+    
 
     func signedInStatus(isSignedIn: Bool) {
         navbar.titleView?.isHidden = !isSignedIn
@@ -143,10 +180,12 @@ class DiscoverViewController: UIViewController {
         backgroundBlur.isHidden = isSignedIn
         signInBackgroundImage.isHidden = isSignedIn
         signInButton.isHidden = isSignedIn
-        
+        logoutBtn.isEnabled = isSignedIn
         if isSignedIn {
-//            populateDeck()
-            print("hey")
+            logoutBtn.tintColor = .red
+        } else {
+            logoutBtn.tintColor = .clear
+
         }
     }
     
@@ -159,22 +198,16 @@ class DiscoverViewController: UIViewController {
         let provider: [FUIAuthProvider] = [FUIGoogleAuth()]
         FUIAuth.defaultAuthUI()?.providers = provider
         
-        // listen for changes in the authorization state
         _authHandle = Auth.auth().addStateDidChangeListener { (auth: Auth, user: User?) in
-            // refresh table data
-//            self.decks.removeAll(keepingCapacity: false)
-//            self.onlineDecks.reloadData()
             
-            // check if there is a current user
             if let activeUser = user {
-                // check if the current app user is the current FIRUser
+
                 if self.user != activeUser {
                     self.user = activeUser
                     self.signedInStatus(isSignedIn: true)
-                    self.addListeners()
+                    self.populateDeck()
                 }
             } else {
-                // user must sign in
                 self.signedInStatus(isSignedIn: false)
             }
         }
@@ -193,6 +226,30 @@ extension DiscoverViewController{
     
 }
 extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDataSource{
+    func setupFlowLayout(){
+        let space:CGFloat = 8.0
+        let dimension = (onlineDecks.frame.size.width - (2 * space)) / 3.0
+        
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.minimumLineSpacing = space
+        flowLayout.itemSize = CGSize(width: dimension, height: 200.0)
+        flowLayout.scrollDirection = .vertical
+    }
+    
+    func setupRefreshLayout(){
+        // Add Refresh Control to Table View
+        if #available(iOS 10.0, *) {
+            onlineDecks.refreshControl = refreshControl
+        } else {
+            onlineDecks.addSubview(refreshControl)
+        }
+        
+        // Configure Refresh Control
+        refreshControl.addTarget(self, action: #selector(refreshDeckData(_:)), for: .valueChanged)
+    }
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return (decks?.count)!
     }

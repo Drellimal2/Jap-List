@@ -12,35 +12,37 @@ import Firebase
 
 class DeckViewController: UIViewController {
     
+    
+    // UI Elements
+    @IBOutlet weak var coverImage: UIImageView!
+    @IBOutlet weak var descLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var wordTable: UITableView!
+    @IBOutlet weak var newWordBtn: UIButton!
+    @IBOutlet weak var editBtn: UIButton!
+    @IBOutlet weak var reviewBtn: UIButton!
+    @IBOutlet weak var deleteBtn: UIButton!
+    @IBOutlet weak var otherBtn: UIButton!
+    
+    
     let delegate = UIApplication.shared.delegate as! AppDelegate
+    var defaultStore : Firestore? = nil
+    var saveSnap :Bool? = true
+    var isSnap :Bool? = false
     var stack : CoreDataStack? = nil
     var deck : Deck? = nil
     var cards : [Card]? = nil
     var deckDocument : DocumentSnapshot? = nil
     var cardSnapshots : [DocumentSnapshot]? = nil
-    @IBOutlet weak var coverImage: UIImageView!
-    @IBOutlet weak var descLabel: UILabel!
-    var defaultStore : Firestore? = nil
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var wordTable: UITableView!
-    @IBOutlet weak var newWordBtn: UIButton!
-    @IBOutlet weak var editBtn: UIButton!
-
-    @IBOutlet weak var reviewBtn: UIButton!
-    @IBOutlet weak var deleteBtn: UIButton!
-    @IBOutlet weak var otherBtn: UIButton!
-    var saveSnap :Bool? = true
-    var isSnap :Bool? = false
-    
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         stack = delegate.stack
         setup()
-        subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), object: stack?.context, controller: self)        // Do any
+        subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), object: stack?.context, controller: self)
     }
 
     func setupSnapshot(){
@@ -49,7 +51,7 @@ class DeckViewController: UIViewController {
         //coverImage.image = UIImage(data: (deck?.cover)! as Data)
         descLabel.text = deckdoc[Constants.SnapshotFields.desc] ?? "No description"
         let coverlink = deckdoc[Constants.SnapshotFields.cover]
-        setImage(imageView: self.coverImage, delegate: self.delegate, lnk: coverlink!, snap: true)
+        setImage(imageView: self.coverImage, delegate: self.delegate, lnk: coverlink, snap: true)
 
         cards = []
         cardSnapshots = []

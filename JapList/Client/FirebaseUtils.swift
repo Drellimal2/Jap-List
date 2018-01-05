@@ -32,11 +32,9 @@ class FirebaseUtils{
         
         defaultStore.collection("user_decks").document(currentUser!).collection("decks").getDocuments() { (querySnapshot, err) in
             
-            
-            
-            completionHandler(querySnapshot, err)
+                completionHandler(querySnapshot, err)
 
-        }
+            }
     }
 
     static func addDeckToUserLists(defaultStore : Firestore, doc : DocumentSnapshot){
@@ -195,13 +193,13 @@ static func completeUpload(data:[String:String], refId:DocumentReference, defaul
     if let userRef = userref{
         print("Here boo")
         userRef.updateData(["temp" : FieldValue.delete(),
-                             ]) { err in
-                                if let err = err {
-                                    completionHandler("Error updating user document")
-                                } else {
-                                    print("Document successfully updated")
-                                    completionHandler(nil)
-                                }
+         ]) { err in
+            if let err = err {
+                completionHandler("Error updating user document")
+            } else {
+                print("Document successfully updated")
+                completionHandler(nil)
+            }
         }
     } else {
         defaultStore.collection("user_decks").document(user!).collection("decks").whereField(Constants.SnapshotFields.ref, isEqualTo: refId).getDocuments { (querySnapshot, error) in

@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         firestoreSetup()
-        
         stack.autoSave(60)
         return true
     }
