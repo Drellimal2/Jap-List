@@ -15,6 +15,7 @@ import FirebaseGoogleAuthUI
 class MyDecksController: UIViewController {
 
     @IBOutlet weak var deckTableView: UITableView!
+    @IBOutlet weak var logoutBtn: UIBarButtonItem!
     
     let delegate = UIApplication.shared.delegate as! AppDelegate
     var stack : CoreDataStack? = nil
@@ -23,6 +24,7 @@ class MyDecksController: UIViewController {
     var deckSnapshots : [DocumentSnapshot] = []
     var selDeck : Deck? = nil
     var selSnap : DocumentSnapshot? = nil
+    var savedPublicDeckListener : ListenerRegistration? = nil
     fileprivate var _authHandle: AuthStateDidChangeListenerHandle!
     
     override func viewDidLoad() {
@@ -30,7 +32,6 @@ class MyDecksController: UIViewController {
         stack = delegate.stack
         defaultStore = delegate.defaultStore
         decks = getAllDecks(moc: (stack?.context)!)
-        
         subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), object: stack?.context)
         configureAuth()
         
@@ -38,6 +39,19 @@ class MyDecksController: UIViewController {
         
     }
     
+    @IBAction func logout(_ sender: Any) {
+        let okAction : UIAlertAction  = UIAlertAction(title: "Yes, I'm Sure", style: .destructive, handler: { (action) in
+            print("Logged out")
+            try! Auth.auth().signOut()
+            
+        })
+        let cancelAction : UIAlertAction  = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alert(title: "Are you sure?", message: "This will log you out and you will not be able to access any public decks.", controller: self, actions: [okAction, cancelAction])
+        if savedPublicDeckListener != nil {
+            savedPublicDeckListener?.remove()
+            savedPublicDeckListener = nil
+        }
+    }
     
     func firstCheck(){
         if isFirstTime(){
@@ -61,23 +75,36 @@ class MyDecksController: UIViewController {
                 
                 // check if the current app user is the current FIRUser
                 print("\(String(describing: activeUser.email!)) is logged in.")
-                
+                self.signedInStatus(isSignedIn: true)
                 self.populateDeck()
                 
             } else {
                 // user must sign in
                 print("User not logged in.")
+                self.signedInStatus(isSignedIn: false)
+                self.deckSnapshots = []
+                self.deckTableView.reloadSections(IndexSet(integer : 1), with: .automatic)
             }
         }
     }
 
-    
+    func signedInStatus(isSignedIn: Bool) {
+        logoutBtn.isEnabled = isSignedIn
+        if isSignedIn {
+            logoutBtn.tintColor = .red
+        } else {
+            logoutBtn.tintColor = .clear
+            
+        }
+    }
     
     
     func populateDeck(){
         monitorNetworkViaUI(true)
         FirebaseUtils.getUserPublicLists(defaultStore: defaultStore!, controller: self) { (querySnapshot, err) in
             self.addListeners()
+            monitorNetworkViaUI(false)
+
             if let err = err {
                 performUIUpdatesOnMain {
                     print("Error getting documents: \(err)")
@@ -85,6 +112,7 @@ class MyDecksController: UIViewController {
                 }
             } else {
                 performUIUpdatesOnMain {
+                    print(querySnapshot?.metadata.isFromCache ?? "YILES")
                     var count = 0
                     for document in querySnapshot!.documents {
                         let a = document.data()
@@ -105,13 +133,12 @@ class MyDecksController: UIViewController {
     }
     
     func addListeners(){
-        FirebaseUtils.getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
+        savedPublicDeckListener = FirebaseUtils.getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
                 print("Error fetching updates")
                 return
             }
             snapshot.documentChanges.forEach({ (diff) in
-                print("list")
                 let a = diff.document.data()
                 let docref = a[Constants.SnapshotFields.ref] as! DocumentReference
                     docref.getDocument(completion: { (doc, err) in
@@ -238,7 +265,7 @@ extension MyDecksController : UITableViewDelegate, UITableViewDataSource{
                 let deckDoc = deckSnapshots[indexPath.row]
                 let deck = deckDoc.data() as! [String:String]
                 cell.title.text = deck[Constants.SnapshotFields.title]
-                cell.cover.image = UIImage(named: "Red Circle")
+                cell.cover.image = UIImage(named: "Placeholder")
                 let coverlink = deck[Constants.SnapshotFields.cover]
                 if coverlink == nil{
                     cell.cover.image = UIImage(named : "Placeholder")

@@ -20,14 +20,18 @@ class NewDeckViewController: UIViewController {
     @IBOutlet weak var navbar: UINavigationBar!
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var saveUploadBtn: UIButton!
+    
+    let tapRec = UITapGestureRecognizer()
+    
+    let delegate = UIApplication.shared.delegate as! AppDelegate
+    let ActInd = MyActInd()
+    let uploadingInd = MyActInd("Uploading")
     fileprivate var _authHandle: AuthStateDidChangeListenerHandle!
     var defHeight : CGFloat? = 0
     var actInd = MyActInd()
     var upload : Bool? = false
     var keyboardOnScreen = false
     var deck : Deck? = nil
-    let tapRec = UITapGestureRecognizer()
-    let delegate = UIApplication.shared.delegate as! AppDelegate
     var stack : CoreDataStack? = nil
     var timeAdded : NSDate? = nil
 
@@ -45,23 +49,13 @@ class NewDeckViewController: UIViewController {
         let provider: [FUIAuthProvider] = [FUIGoogleAuth()]
         FUIAuth.defaultAuthUI()?.providers = provider
         
-        // listen for changes in the authorization state
         _authHandle = Auth.auth().addStateDidChangeListener { (auth: Auth, user: User?) in
-            // refresh table data
-            //            self.decks.removeAll(keepingCapacity: false)
-            //            self.onlineDecks.reloadData()
-            
-            // check if there is a current user
             performUIUpdatesOnMain {
-                
             
-            if let activeUser = user {
-                // check if the current app user is the current FIRUser
-                self.saveUploadBtn.isHidden = false
-            } else {
-                // user must sign in
-                self.saveUploadBtn.isHidden = true
-
+                if user != nil {
+                    self.saveUploadBtn.isHidden = false
+                } else {
+                    self.saveUploadBtn.isHidden = true
                 }
             }
         }
@@ -82,15 +76,13 @@ class NewDeckViewController: UIViewController {
     }
     
     @IBAction func cancelAction(_ sender: Any) {
-        if deck == nil{
         dismiss(animated: true, completion: nil)
-        } else {
-            self.navigationController?.popViewController(animated: true)
-        }
+        
     }
     
     @IBAction func saveImage(_ sender: Any) {
         setUIEnabled(false)
+        actInd.show(self.view)
         if (titleTextField.text?.isEmpty)! {
             alert(title: "Invalid Title", message: "Title cannot be empty", controller: self)
             setUIEnabled(true)
@@ -101,8 +93,6 @@ class NewDeckViewController: UIViewController {
         let desc = self.descTextField.text!
         if deck != nil{
             updateLocalDeck(deck: self.deck!, title: name, desc: desc, cover: imageData, stack: self.stack!)
-            
-            
         } else {
             stack?.performBackgroundBatchOperation{
                 (workingContext) in
@@ -127,8 +117,8 @@ class NewDeckViewController: UIViewController {
         let name = self.titleTextField.text!
         let desc = self.descTextField.text!
         if deck != nil{
-            updateLocalDeck(deck: self.deck!, title: name, desc: desc, cover: imageData, stack: self.stack!)
             
+            updateLocalDeck(deck: self.deck!, title: name, desc: desc, cover: imageData, stack: self.stack!)
             
         } else {
             stack?.performBackgroundBatchOperation{
@@ -140,6 +130,20 @@ class NewDeckViewController: UIViewController {
         }
         
         setUIEnabled(true)
+        
+    }
+    
+    func uploadToFirebase(deck : Deck){
+        FirebaseUtils.startUpdateUpload(defaultStore: delegate.defaultStore!, deck: deck, completionHandler: { (error) in
+            performUIUpdatesOnMain {
+                if error != nil{
+                    self.uploadingInd.hide()
+                    alert(title: "Error Uploading", message: "There was an error while uploading please try again", controller: self)
+                } else {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        })
     }
     
 
@@ -173,13 +177,7 @@ extension NewDeckViewController {
     }
     
     func setup(){
-        if deck != nil{
-            titleTextField.text = deck?.name
-            descTextField.text = deck?.desc
-            coverImage.image = UIImage(data: (deck?.cover)! as Data)
-            navbar.topItem?.title = "Edit Deck"
-            saveUploadBtn.isHidden = true
-        }
+        setupUI()
         setUIEnabled(true)
         tapRec.addTarget(self, action: #selector(NewDeckViewController.tappedImage))
         coverImage.addGestureRecognizer(tapRec)
@@ -189,6 +187,14 @@ extension NewDeckViewController {
         subscribeToKeyboardNotifications()
         
         
+    }
+    
+    func setupUI(){
+        if deck != nil{
+            titleTextField.text = deck?.name
+            descTextField.text = deck?.desc
+            navbar.topItem?.title = "Edit Deck"
+        }
     }
     
     func subscribeToKeyboardNotifications() {
@@ -208,29 +214,30 @@ extension NewDeckViewController {
         guard let userInfo = notification.userInfo else { return }
         if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
             for insert in inserts {
-                print("Inserts")
-                print(inserts.count)
                 if insert is Deck {
                     if let deck = (insert as? Deck), deck.createdDate == self.timeAdded{
-                        print("We did it")
-                        if self.upload!{
-                            print("Uploaded")
-                            FirebaseUtils.startUpdateUpload(defaultStore: delegate.defaultStore!, deck: deck, completionHandler: {(error) in
-                                performUIUpdatesOnMain {
-                                    if let err = error{
-                                        print("hello")
-                                        alert(title: "Error", message: err, controller: self)
-                                    } else {
-                                        print("hiyo")
-                                        self.dismiss(animated: true, completion: nil)
-                                        
-                                    }
-                                }
-                            })
-                        }
+                        self.deck = deck
                         performUIUpdatesOnMain {
-                            self.dismiss(animated: true, completion: nil)
-
+                            self.actInd.hide()
+                        }
+                        if self.upload!{
+                            performUIUpdatesOnMain {
+                                self.uploadingInd.show(self.view)
+                            }
+                            if ReachabilityTest.isConnectedToNetwork(){
+                                self.uploadToFirebase(deck: deck)
+                            } else {
+                                performUIUpdatesOnMain {
+                                    self.uploadingInd.hide()
+                                    alert(title: "Error uploading", message: "There seems to be some internet issues. Please check your connection and try again later.", controller: self)
+                                }
+                            }
+                            
+                            
+                        } else {
+                            performUIUpdatesOnMain {
+                                self.dismiss(animated: true, completion: nil)
+                            }
                         }
                     }
                     
@@ -249,22 +256,21 @@ extension NewDeckViewController {
                             if deck.objectID == (self.deck?.objectID)! {
                                 if self.upload!{
                                     print("Uploaded Edit")
-                                    FirebaseUtils.startUpdateUpload(defaultStore: delegate.defaultStore!, deck: deck, completionHandler: {(error) in
-                                            performUIUpdatesOnMain {
-                                                if let err = error{
-                                                    alert(title: "Error", message: err, controller: self)
-                                                } else {
-                                                    print("herro no error")
-                                                    self.navigationController?.popViewController(animated: true)
-
-                                                }
-                                            }
-                                    })
+                                    performUIUpdatesOnMain {
+                                        self.uploadingInd.show(self.view)
+                                    }
+                                    if ReachabilityTest.isConnectedToNetwork(){
+                                        self.uploadToFirebase(deck: deck)
+                                    } else {
+                                        performUIUpdatesOnMain {
+                                            self.uploadingInd.hide()
+                                            alert(title: "Error uploading", message: "There seems to be some internet issues. Please check your connection and try again later.", controller: self)
+                                        }
+                                    }
                                 } else {
-                                performUIUpdatesOnMain {
-                                    self.navigationController?.popViewController(animated: true)
-                                    
-                                }
+                                    performUIUpdatesOnMain {
+                                        self.dismiss(animated: true, completion: nil)
+                                    }
                                 }
                             }
                         }
@@ -287,15 +293,13 @@ extension NewDeckViewController : UITextFieldDelegate, UITextViewDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
-        print("idk")
-        // Try to find next responder
+        
         if let nextField = self.view.viewWithTag(textField.tag + 1) as? UITextField {
             nextField.becomeFirstResponder()
-        }else if let nextField = self.view.viewWithTag(textField.tag + 1) as? UITextView {
+        } else if let nextField = self.view.viewWithTag(textField.tag + 1) as? UITextView {
             nextField.becomeFirstResponder()
-        }else {
-            // Not found, so remove keyboard.
-        textField.resignFirstResponder()
+        } else {
+            textField.resignFirstResponder()
         }
         return false
     }
@@ -307,7 +311,6 @@ extension NewDeckViewController : UITextFieldDelegate, UITextViewDelegate {
         }
         return true
     }
-    
     
     // MARK: Show/Hide Keyboard
     
@@ -332,7 +335,6 @@ extension NewDeckViewController : UITextFieldDelegate, UITextViewDelegate {
     
     @objc func keyboardWillHide(_ notification: Notification) {
         if keyboardOnScreen {
-//            self.view.frame.origin.y += self.keyboardHeight(notification)
             self.view.frame.origin.y += self.defHeight!
         }
     }
@@ -355,10 +357,7 @@ extension NewDeckViewController : UITextFieldDelegate, UITextViewDelegate {
 extension NewDeckViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String:Any]) {
-        // constant to hold the information about the photo
         if let photo = info[UIImagePickerControllerOriginalImage] as? UIImage, let _ = UIImageJPEGRepresentation(photo, 0.8) {
-            
-            // call function to upload photo message
             coverImage.image = photo
         }
         picker.dismiss(animated: true, completion: nil)

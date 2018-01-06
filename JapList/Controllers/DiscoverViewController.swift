@@ -52,8 +52,13 @@ class DiscoverViewController: UIViewController {
     
     
     @IBAction func logout(_ sender: Any) {
-        print("Logged out")
-        try! Auth.auth().signOut()
+        let okAction : UIAlertAction  = UIAlertAction(title: "Yes, I'm Sure", style: .destructive, handler: { (action) in
+            print("Logged out")
+            try! Auth.auth().signOut()
+            
+        })
+        let cancelAction : UIAlertAction  = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alert(title: "Are you sure?", message: "This will log you out and you will not be able to access any public decks.", controller: self, actions: [okAction, cancelAction])
     }
     
     
@@ -69,49 +74,45 @@ class DiscoverViewController: UIViewController {
     }
     
     func populateDeck(_ reloading : Bool = false){
+        if !ReachabilityTest.isConnectedToNetwork() && reloading{
+            self.refreshControl.endRefreshing()
+            alert(title: "Error reloading data", message: "Please check internet connection to reload.", controller: self)
+            return
+        }
+        
         ActInd.show(onlineDecks!)
+        monitorNetworkViaUI(true)
         defStore?.collection("public_decks").getDocuments() { (querySnapshot, err) in
-            
             performUIUpdatesOnMain {
-                self.ActInd.hide()
-                if reloading{
-                    self.refreshControl.endRefreshing()
-                }
-            }
-            print("all added")
-            
-            if let err = err {
-                print("Error getting documents: \(err)")
-                alert(title: "Error", message: "Could not retrieve decks.", controller: self)
-                self.addListeners()
-
-            } else {
-                performUIUpdatesOnMain {
-//                    self.decks.removeAll()
-//                    self.onlineDecks.reloadData()
-                    
-                    for document in querySnapshot!.documents {
-                        if !self.decks.contains(document){
-                            self.decks.append(document)
-                            
-                            self.onlineDecks.insertItems(at: [IndexPath(row: (self.decks.count)-1, section: 0)])
-                        } else {
-                            let ind = self.decks.index(of: document)
-                            self.decks![ind!] = document
-                        }
-                    }
+                monitorNetworkViaUI(false)
                 
-                    self.onlineDecks.reloadData()
-                    if !self.listenersActive!{
-                        self.addListeners()
-                        self.listenersActive = true
-                    }
+                self.ActInd.hide()
+                if !self.listenersActive!{
+                    self.addListeners()
+                    self.listenersActive = true
+                }
+                
+                
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    alert(title: "Error", message: "Could not retrieve decks.", controller: self)
 
+                } else {
+                    
+                    self.decks = querySnapshot!.documents
+                    
+                    self.onlineDecks.reloadData()
+
+                }
+                if !ReachabilityTest.isConnectedToNetwork(){
+                    alert(title: "Notice", message: "Data shown is the last cached copy. Could not establish connection.", controller: self)
                 }
             }
         }
     }
     
+    
+    // These monitor for changes thus cannot alert in here.
     func addListeners(){
         let options = QueryListenOptions()
         options.includeQueryMetadataChanges(true)
