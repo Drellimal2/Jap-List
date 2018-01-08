@@ -102,7 +102,17 @@ class DiscoverViewController: UIViewController {
         defStore?.collection("public_decks").getDocuments() { (querySnapshot, err) in
             performUIUpdatesOnMain {
                 monitorNetworkViaUI(false)
-                
+                if reloading{
+                   
+                        if self.onlineDecks.refreshControl != nil{
+                            self.onlineDecks.refreshControl!.endRefreshing()
+                            
+                        } else {
+                            self.refreshControl.endRefreshing()
+                            
+                        }
+
+                }
                 self.ActInd.hide()
                 if !self.listenersActive!{
                     self.addListeners()
@@ -177,7 +187,6 @@ class DiscoverViewController: UIViewController {
         var ind : Int = 0
         for deck in decks {
             if deck.documentID == doc.documentID{
-                print(ind)
                 return ind
             }
             ind += 1

@@ -48,9 +48,7 @@ class NewCardViewController: UIViewController {
         let kanji = kanjiTextField.text ?? ""
         let trans = translationTextField.text
         newCard(deck :deck!, kanji: kanji,trans : trans, kana : kana, stack : stack!)
-//        let newCard = Card(kana: kana, kanji: kanji, romaji: "", translation: trans!, context: (stack?.context)!)
-//        newCard.deck = deck
-//        stack?.save()
+
         dismiss(animated: true, completion: nil)
         
     }
@@ -104,7 +102,6 @@ extension NewCardViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
-        print("idk")
         // Try to find next responder
         if let nextField = self.view.viewWithTag(textField.tag + 1) as? UITextField {
             nextField.becomeFirstResponder()
