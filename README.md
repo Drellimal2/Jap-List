@@ -63,13 +63,11 @@ Though you can do SO MUCH without an account, the real funn is when you are logg
 1. In the deck view simply swipe left on the desired card row will initiate the deletion process.
 2. A dialog should be shown asking if you are sure. 
 3. Clicking 'Yes, I'm Sure' will delete the card.
-4. Clicking cancel will close the dialog.
-5. NB: This is a local feature only
+4. NB: This is a local feature only
 ##### 7. Deleting a deck
 1. In the deck view click the delete button to start the process.
 2. You will then be prompted if you are sure.
-3. Confirming will delete the deck.
-4. After the deck is deleted we will redirected back to 'My Decks'
+3. Confirming will delete the deck and redirect you back to 'My Decks'
 ##### 8. Editting a deck
 Maybe you don't want to delete a deck. Maybe you just want to edit the title.
 1. In the deck view click the edit button to start the process.
@@ -98,7 +96,7 @@ Saving a public deck will add the deck to your 'My Decks' page.
 Unsaving a public deck will remove the deck from your 'My Decks' page.
 1. On the deck view page of a public deck that you have saved you will see a button labelled 'Unsave' beside the 'Review' button.
 2. Clicking it will prompt you warning the consequences
-3. Accepting the consequences will lead to the removal of the deck from your decks.
+3. Accepting the consequences will lead to the removal of the selected deck from your saved decks.
 ##### 6. Uploading a deck
 1. Once we are logged in the new/edit deck screens provide us with an option to save and upload.
 2. This should automatically update changes like addition of cards etc.
