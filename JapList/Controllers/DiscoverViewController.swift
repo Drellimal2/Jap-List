@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseAuthUI
 import FirebaseGoogleAuthUI
+import XCGLogger
 
 
 class DiscoverViewController: UIViewController {
@@ -29,6 +30,7 @@ class DiscoverViewController: UIViewController {
     
     let delegate = UIApplication.shared.delegate as! AppDelegate
     var user : User?
+    var log : XCGLogger?
     var decks : [DocumentSnapshot]! = []
     var defStore : Firestore? = nil
     var defAuth : FUIAuth? = nil
@@ -41,6 +43,7 @@ class DiscoverViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        log = delegate.log
         setupRefreshLayout()
         setupFlowLayout()
         firestoreSetup()
@@ -139,14 +142,14 @@ class DiscoverViewController: UIViewController {
     }
     
     
-    // These monitor for changes thus cannot alert in here.
+    // These monitor for changes therefore conatantly polling, thus cannot alert in here.
     func addListeners(){
         let options = QueryListenOptions()
         options.includeQueryMetadataChanges(true)
 
         defStore?.collection("public_decks").addSnapshotListener(options: options){ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
-                print("Error fetching updates")
+                self.log?.error("Error fetching deck updates")
                 return
             }
             snapshot.documentChanges.forEach({ (diff) in
@@ -156,6 +159,8 @@ class DiscoverViewController: UIViewController {
                         performUIUpdatesOnMain {
                             self.decks.append(diff.document)
                             self.onlineDecks.insertItems(at: [IndexPath(row: self.decks.count - 1, section : 0 )])
+                            self.log?.info("[+] Public deck added")
+
                         }
                     }
                 }
@@ -165,7 +170,8 @@ class DiscoverViewController: UIViewController {
                         self.decks[ind] = diff.document
                         self.onlineDecks.reloadItems(at: [IndexPath(row: ind, section : 0 )])
                     }
-                    
+                    self.log?.info("[!] Public deck modified")
+
                 }
                 
                 if(diff.type == .removed){
@@ -176,6 +182,8 @@ class DiscoverViewController: UIViewController {
                         self.onlineDecks.deleteItems(at: [IndexPath(row: ind, section : 0 )])
 
                     }
+                    self.log?.info("[-] Public deck deleted")
+
                     
                 }
             })
@@ -306,6 +314,7 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         selDeck = decks[indexPath.row]
+        log?.info("Item at index \(indexPath.row) selected.\n \(String(describing: selDeck))")
         performSegue(withIdentifier: Constants.SegueIdentifiers.deckDetails, sender: self)
     }
     

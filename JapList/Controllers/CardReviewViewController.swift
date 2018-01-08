@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import XCGLogger
 
 class CardReviewViewController: UIViewController {
 
@@ -15,6 +16,8 @@ class CardReviewViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var cardsCollectionView: UICollectionView!
     
+    let delegate = UIApplication.shared.delegate as! AppDelegate
+    var log : XCGLogger?
     var deck : Deck? = nil
     var cards : [Card]? = []
     var deckDocument : DocumentSnapshot? = nil
@@ -26,6 +29,7 @@ class CardReviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        log = delegate.log
         setupFlowLayout()
         setup()
         setInitProg()
@@ -159,7 +163,7 @@ extension CardReviewViewController : UICollectionViewDelegate, UICollectionViewD
             cell.transLabel.isHidden = cell.isFlipped
             cell.isFlipped = !cell.isFlipped
         }) { (finished) in
-            print("We did it")
+            self.log?.info("Card flipped")
         }
         
     }
@@ -175,7 +179,6 @@ extension CardReviewViewController : UICollectionViewDelegate, UICollectionViewD
 
             }
         }
-        print("calc")
     }
     
 

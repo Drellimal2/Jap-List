@@ -11,6 +11,7 @@ import CoreData
 import Firebase
 import FirebaseAuthUI
 import FirebaseGoogleAuthUI
+import XCGLogger
 
 class MyDecksController: UIViewController {
 
@@ -18,6 +19,7 @@ class MyDecksController: UIViewController {
     @IBOutlet weak var logoutBtn: UIBarButtonItem!
     
     let delegate = UIApplication.shared.delegate as! AppDelegate
+    var log : XCGLogger?
     var stack : CoreDataStack? = nil
     var defaultStore : Firestore? = nil
     var decks : [Deck] = []
@@ -31,6 +33,7 @@ class MyDecksController: UIViewController {
         super.viewDidLoad()
         stack = delegate.stack
         defaultStore = delegate.defaultStore
+        log = delegate.log
         decks = getAllDecks(moc: (stack?.context)!)
         subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), object: stack?.context)
         configureAuth()
@@ -41,7 +44,7 @@ class MyDecksController: UIViewController {
     
     @IBAction func logout(_ sender: Any) {
         let okAction : UIAlertAction  = UIAlertAction(title: "Yes, I'm Sure", style: .destructive, handler: { (action) in
-            print("Logged out")
+            self.log?.info("Logged Out")
             try! Auth.auth().signOut()
             
         })
@@ -55,6 +58,7 @@ class MyDecksController: UIViewController {
     
     func firstCheck(){
         if isFirstTime(){
+            self.log?.info("First Time")
             alert(title: "Welcome", message: "Hi there, I see it's your first time using the app. So you have no decks yet. Why not click the plus in the top right corner to create your first deck!", controller: self)
         }
     }
@@ -74,13 +78,13 @@ class MyDecksController: UIViewController {
             if let activeUser = user {
                 
                 // check if the current app user is the current FIRUser
-                print("\(String(describing: activeUser.email!)) is logged in.")
+                self.log?.info("\(String(describing: activeUser.email!)) is logged in.")
                 self.signedInStatus(isSignedIn: true)
                 self.populateDeck()
                 
             } else {
                 // user must sign in
-                print("User not logged in.")
+                self.log?.info("User not logged in.")
                 self.signedInStatus(isSignedIn: false)
                 self.deckSnapshots = []
                 self.deckTableView.reloadSections(IndexSet(integer : 1), with: .automatic)
@@ -107,13 +111,13 @@ class MyDecksController: UIViewController {
 
             if let err = err {
                 performUIUpdatesOnMain {
-                    print("Error getting documents: \(err)")
+                    self.log?.error("Error getting documents: \(err)")
                     alert(title: "Error", message: "Could not retrieve saved public decks. Please check your connection.", controller: self)
                 }
             } else {
                 performUIUpdatesOnMain {
                     if !ReachabilityTest.isConnectedToNetwork(){
-                        alert(title: "Alert", message: "Public decks shownn are cached copies.No connection was found.", controller: self)
+                        alert(title: "Alert", message: "Public decks shown are cached copies.No connection was found.", controller: self)
                     }
                     var count = 0
                     for document in querySnapshot!.documents {
@@ -137,7 +141,7 @@ class MyDecksController: UIViewController {
     func addListeners(){
         savedPublicDeckListener = FirebaseUtils.getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
-                print("Error fetching updates")
+                self.log?.error("Error fetching updates")
                 return
             }
             snapshot.documentChanges.forEach({ (diff) in
@@ -235,7 +239,8 @@ extension MyDecksController : UITableViewDelegate, UITableViewDataSource{
                 selSnap = deckSnapshots[indexPath.row]
                 break
             default:
-                print("Item Selected")
+                break
+            
         }
         
         performSegue(withIdentifier: Constants.SegueIdentifiers.deckDetails, sender: self)
@@ -263,6 +268,7 @@ extension MyDecksController : UITableViewDelegate, UITableViewDataSource{
                 let deck = decks[indexPath.row]
                 cell.cover.image = UIImage(data: deck.cover! as Data)
                 cell.title.text = deck.name
+                break
             case 1:
                 let deckDoc = deckSnapshots[indexPath.row]
                 let deck = deckDoc.data() as! [String:String]
@@ -274,8 +280,9 @@ extension MyDecksController : UITableViewDelegate, UITableViewDataSource{
                 } else {
                     setImage(imageView: cell.cover, delegate: self.delegate, lnk: coverlink!, snap: true)
                 }
+                break
             default:
-                print("cell")
+                break
         }
         
         
@@ -307,11 +314,11 @@ extension MyDecksController {
                     let deck = insert as! Deck
                     self.decks.append(deck)
                     deckTableView.insertRows(at: [IndexPath(row : (self.decks.count) - 1, section : 0)], with: UITableViewRowAnimation.automatic)
+                    self.log?.info("[+] Local deck added.")
                 }
             
             }
-        
-            print("Inserted \(inserts.count)")
+            self.log?.info("[+] Inserted \(inserts.count).")
         
         }
         
@@ -323,6 +330,8 @@ extension MyDecksController {
                         let ind = self.decks.index(of: update as! Deck)
                         self.decks[ind!] = update as! Deck
                         self.deckTableView.reloadRows(at: [IndexPath(row : ind!, section :0)], with: .automatic)
+                        self.log?.info("[!] Local deck updated.")
+
                     }
                 }
                 
@@ -337,6 +346,8 @@ extension MyDecksController {
                     let ind = self.decks.index(of: deleted as! Deck)
                     self.decks.remove(at: ind!)
                     self.deckTableView.deleteRows(at: [IndexPath(row : ind!, section :0)], with: .automatic)
+                    self.log?.info("[-] Local deck deleted.")
+
                 }
             }
             }

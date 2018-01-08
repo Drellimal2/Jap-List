@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import XCGLogger
 
 class DeckViewController: UIViewController {
     
@@ -26,6 +27,7 @@ class DeckViewController: UIViewController {
     
     
     let delegate = UIApplication.shared.delegate as! AppDelegate
+    var log : XCGLogger?
     var defaultStore : Firestore? = nil
     var saveSnap :Bool? = true
     var isSnap :Bool? = false
@@ -41,6 +43,7 @@ class DeckViewController: UIViewController {
         super.viewDidLoad()
 
         stack = delegate.stack
+        log = delegate.log
         setup()
         subscribeToNotification(.NSManagedObjectContextObjectsDidChange, selector: #selector(managedObjectContextObjectsDidChange), object: stack?.context, controller: self)
     }
@@ -48,8 +51,8 @@ class DeckViewController: UIViewController {
     func setupSnapshot(){
         let deckdoc = deckDocument?.data() as! [String : String]
         titleLabel.text = deckdoc[Constants.SnapshotFields.title]
-        //coverImage.image = UIImage(data: (deck?.cover)! as Data)
         descLabel.text = deckdoc[Constants.SnapshotFields.desc] ?? "No description"
+        
         let coverlink = deckdoc[Constants.SnapshotFields.cover]
         setImage(imageView: self.coverImage, delegate: self.delegate, lnk: coverlink, snap: true)
 
@@ -63,28 +66,41 @@ class DeckViewController: UIViewController {
         editBtn.isHidden = true
         otherBtn.titleLabel?.text = "Save"
         populateCardSnaps()
-        addListeners()
+        addSaveListener()
     }
     
     func populateCardSnaps(){
-        defaultStore?.collection("public_decks").document((deckDocument?.documentID)!).collection("cards").getDocuments(completion: {  (querySnapshot, err) in
+                monitorNetworkViaUI(true)
+            defaultStore?.collection("public_decks").document((deckDocument?.documentID)!).collection("cards").getDocuments(completion: {  (querySnapshot, err) in
+                performUIUpdatesOnMain {
+                    monitorNetworkViaUI(false)
+                }
+                self.addCardListeners()
                 if let err = err {
-                    print("Error getting documents: \(err)")
+                    self.log?.error("Error fetching cards \(err)")
                     performUIUpdatesOnMain {
-
-                    alert(title: "Error", message: "Could not retrieve decks.", controller: self)
+                        
+                        alert(title: "Error", message: "Could not retrieve decks.", controller: self)
                     }
-//                } else {
-//                    performUIUpdatesOnMain {
-//                        print(querySnapshot!.documents.count)
-//                        var count = 0
-//                        for document in querySnapshot!.documents {
-//                            self.cardSnapshots?.append(document)
-//                            self.wordTable.insertRows(at: [IndexPath(row: (self.cardSnapshots?.count)!-1, section: 0)], with: .automatic)
-//                            count += 1
-//                        }
-//
-//                    }
+                } else {
+                    performUIUpdatesOnMain {
+                        self.log?.info("Loaded \(querySnapshot!.documents.count) cards")
+                        var count = 0
+                        for document in querySnapshot!.documents {
+                            self.cardSnapshots?.append(document)
+                            self.wordTable.insertRows(at: [IndexPath(row: (self.cardSnapshots?.count)!-1, section: 0)], with: .automatic)
+                            count += 1
+                        }
+                        performUIUpdatesOnMain {
+                            if !ReachabilityTest.isConnectedToNetwork(){
+                                if count == 0{
+                                    alert(title: "Error loading cards.", message: "Cards could not be loaded due to connection issues. Please check your connection.", controller: self)
+                                } else {
+                                    alert(title: "Notice", message: "You are viewing cached cards. Cards could not be loaded due to connection issues. Please check your connection.", controller: self)
+                                }
+                            }
+                        }
+                    }
                 }
         })
     }
@@ -111,8 +127,11 @@ class DeckViewController: UIViewController {
             isSnap = true
             return
         }
-        alert(title: "Error", message: "Deck Could not be loaded", controller: self)
-        self.navigationController?.popViewController(animated: true)
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            self.navigationController?.popViewController(animated: true)
+
+        }
+        alert(title: "Error", message: "Deck Could not be loaded. You will be redirected back to previous screen.", controller: self, actions: [OKAction])
 
     }
     
@@ -163,7 +182,6 @@ extension DeckViewController{
             let dest = segue.destination as! NewDeckViewController
             dest.deck = self.deck
         }
-        print(segue.destination)
     }
     
 }
@@ -174,9 +192,7 @@ extension DeckViewController{
         saveSnap = !isSave
         if isSave{
             otherBtn.setTitle("Unsave", for: .normal)
-//            otherBtn.titleLabel?.text = "Unsave"
         } else {
-//            otherBtn.titleLabel?.text = "Save"
             otherBtn.setTitle("Save", for: .normal)
 
         }
@@ -197,10 +213,10 @@ extension DeckViewController{
         }
     }
     
-    func addListeners(){
+    func addSaveListener(){
         FirebaseUtils.getUserListSnapshot(defaultStore: defaultStore!)?.addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
-                print("Error fetching updates")
+                self.log?.error("Error fetching save status.")
                 return
             }
             snapshot.documentChanges.forEach({ (diff) in
@@ -223,35 +239,42 @@ extension DeckViewController{
                 
             })
         })
-        
-    defaultStore?.collection("public_decks").document((deckDocument?.documentID)!).collection("cards").addSnapshotListener({ (querySnapshot, error) in
+    
+    }
+    
+    func addCardListeners(){
+        defaultStore?.collection("public_decks").document((deckDocument?.documentID)!).collection("cards").addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
-                print("Error fetching updates")
+                self.log?.error("Error fetching card updates")
                 return
             }
             snapshot.documentChanges.forEach({ (diff) in
                 
-                        if diff.type == .added {
-                            let doc = diff.document
-                            self.cardSnapshots?.append(doc)
-                            self.wordTable.insertRows(at: [IndexPath(row: (self.cardSnapshots!.count - 1), section : 0)], with: .automatic)
-                            self.saveBtnSetup(true)
-                        }
-                        
-                        if diff.type == .removed {
-                            self.saveBtnSetup(false)
-                        }
-              
+                if diff.type == .added {
+                    let doc = diff.document
+                    if !(self.cardSnapshots?.contains(doc))!{
+                        self.cardSnapshots?.append(doc)
+                        self.wordTable.insertRows(at: [IndexPath(row: (self.cardSnapshots!.count - 1), section : 0)], with: .automatic)
+                        self.saveBtnSetup(true)
+                    }
+                }
+                
+                if diff.type == .removed {
+                    self.saveBtnSetup(false)
+                }
+                
             })
         })
     }
+    
 }
 
 extension DeckViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        print(indexPath.row)
+        self.log?.info("\(indexPath.row) clicked")
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -292,10 +315,10 @@ extension DeckViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
-            print("deleted")
             let card = cards![indexPath.row]
             let okAction : UIAlertAction  = UIAlertAction(title: "Yes, I'm Sure", style: .destructive, handler: { (action) in
                 deleteLocalCard(deck: self.deck!, card: card, stack: self.stack!)
+                self.log?.warning("Card delete initialized")
             })
             let cancelAction : UIAlertAction  = UIAlertAction(title: "Cancel", style: .default, handler: nil)
             alert(title: "Are you sure?", message: "This will delete the card permanently!", controller: self, actions: [okAction, cancelAction])
@@ -326,8 +349,7 @@ extension DeckViewController {
                 }
                 
             }
-            
-            print("Inserted Card \(inserts.count)")
+            self.log?.info("[++] Inserted \(inserts.count) cards")
             
         }
         
@@ -343,7 +365,8 @@ extension DeckViewController {
                 }
                 
             }
-            print("Updated \(updates.count)")
+            self.log?.info("[!!] Updated \(updates.count) cards")
+
         }
         
         if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
@@ -368,7 +391,7 @@ extension DeckViewController {
                     }
                 }
             }
-            print("Deleted \(deletes.count)")
+            self.log?.info("[--] Deleted \(deletes.count) cards")
         }
     }
     

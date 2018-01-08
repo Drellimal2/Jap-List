@@ -8,8 +8,7 @@ pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'FirebaseUI'
 pod 'GoogleSignIn'
-
-pod 'XCGLogger', '~> 6.0.2'
+pod 'XCGLogger'
 
 target 'JapList' do
   		
