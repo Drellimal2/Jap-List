@@ -102,7 +102,18 @@ Unsaving a public deck will remove the deck from your 'My Decks' page.
 ##### 6. Uploading a deck
 1. Once we are logged in the new/edit deck screens provide us with an option to save and upload.
 2. This should automatically update changes like addition of cards etc.
+##### 7. Logging Out
+Logging out will remove all the saved public decks as well as remove the ability to discover new lists
+1. Once logged in, on the main screen (either 'My Decks' or 'Discover') at the top left corner you will see a red 'Logout' button.
+2. Clicking the button will prompt the user asking if they are sure.
+3. Accepting this will log us out and return to the not logged in state.
 
+### What's New
+Since the first submitted version the following features have been added :-
+- Logout
+- Connectivity Checks
+- Network Activity Indicators
+- Minor bug fixes and code improvements.
 
 
 
