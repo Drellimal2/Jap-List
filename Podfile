@@ -5,11 +5,11 @@ use_frameworks!
 pod 'Firebase/Storage'
 pod 'Firebase/Firestore'
 pod 'Firebase/Core'
-# pod 'Firebase/Database'
 pod 'Firebase/Auth'
-# pod 'Firebase/RemoteConfig'
 pod 'FirebaseUI'
 pod 'GoogleSignIn'
+
+pod 'XCGLogger', '~> 6.0.2'
 
 target 'JapList' do
   		
