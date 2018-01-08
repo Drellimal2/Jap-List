@@ -81,11 +81,21 @@ class NewDeckViewController: UIViewController {
     }
     
     @IBAction func saveImage(_ sender: Any) {
+        upload = false
         setUIEnabled(false)
         actInd.show(self.view)
         if (titleTextField.text?.isEmpty)! {
             alert(title: "Invalid Title", message: "Title cannot be empty", controller: self)
             setUIEnabled(true)
+            return
+        }
+        if !hasChanges(){
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                self.dismiss(animated: true, completion: nil)
+            })
+            alert(title: "No changes detected", message: "There were no changes to the deck so we will exit.", controller: self, actions: [okAction])
+            setUIEnabled(true)
+            actInd.hide()
             return
         }
         let imageData = UIImageJPEGRepresentation(self.coverImage.image!, 0.8)!
@@ -106,11 +116,20 @@ class NewDeckViewController: UIViewController {
     }
     
     @IBAction func saveUploadImage(_ sender: Any) {
+        
+        print("Tap")
         upload = true
         setUIEnabled(false)
         if (titleTextField.text?.isEmpty)! {
             alert(title: "Invalid Title", message: "Title cannot be empty", controller: self)
             setUIEnabled(true)
+            return
+        }
+        if !hasChanges(){
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                self.uploadToFirebase(deck: self.deck!)
+            })
+            alert(title: "No local changes detected", message: "There were no local changes to the deck and so it will just be uploaded.", controller: self, actions: [okAction])
             return
         }
         let imageData = UIImageJPEGRepresentation(self.coverImage.image!, 0.8)!
@@ -134,11 +153,16 @@ class NewDeckViewController: UIViewController {
     }
     
     func uploadToFirebase(deck : Deck){
+        performUIUpdatesOnMain {
+            self.uploadingInd.show(self.view)
+
+        }
         FirebaseUtils.startUpdateUpload(defaultStore: delegate.defaultStore!, deck: deck, completionHandler: { (error) in
             performUIUpdatesOnMain {
+                self.uploadingInd.hide()
+
                 if error != nil{
-                    self.uploadingInd.hide()
-                    alert(title: "Error Uploading", message: "There was an error while uploading please try again", controller: self)
+                    alert(title: "Uploading Error", message: "There was an error while uploading please try again", controller: self)
                 } else {
                     self.dismiss(animated: true, completion: nil)
                 }
@@ -178,6 +202,7 @@ extension NewDeckViewController {
     
     func setup(){
         setupUI()
+        self.saveUploadBtn.isHidden = true
         setUIEnabled(true)
         tapRec.addTarget(self, action: #selector(NewDeckViewController.tappedImage))
         coverImage.addGestureRecognizer(tapRec)
@@ -204,6 +229,19 @@ extension NewDeckViewController {
         subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide), controller: self)
     }
     
+    func hasChanges()->Bool{
+        if self.deck == nil {
+            return true
+        }
+        let titleCheck = self.deck?.name! != self.titleTextField.text!
+        print(titleCheck)
+        print(self.titleTextField.text!)
+        let descCheck = self.deck?.desc! != descTextField.text!
+        print(descCheck)
+        print(titleCheck || descCheck)
+        return titleCheck || descCheck
+    }
+    
     
     
 }
@@ -221,15 +259,12 @@ extension NewDeckViewController {
                             self.actInd.hide()
                         }
                         if self.upload!{
-                            performUIUpdatesOnMain {
-                                self.uploadingInd.show(self.view)
-                            }
+                            
                             if ReachabilityTest.isConnectedToNetwork(){
                                 self.uploadToFirebase(deck: deck)
                             } else {
                                 performUIUpdatesOnMain {
-                                    self.uploadingInd.hide()
-                                    alert(title: "Error uploading", message: "There seems to be some internet issues. Please check your connection and try again later.", controller: self)
+                                    alert(title: "Error uploading", message: "There seems to be some connection issues. Please check your connection and try again later.", controller: self)
                                 }
                             }
                             
@@ -256,14 +291,11 @@ extension NewDeckViewController {
                             if deck.objectID == (self.deck?.objectID)! {
                                 if self.upload!{
                                     print("Uploaded Edit")
-                                    performUIUpdatesOnMain {
-                                        self.uploadingInd.show(self.view)
-                                    }
+                                    
                                     if ReachabilityTest.isConnectedToNetwork(){
                                         self.uploadToFirebase(deck: deck)
                                     } else {
                                         performUIUpdatesOnMain {
-                                            self.uploadingInd.hide()
                                             alert(title: "Error uploading", message: "There seems to be some internet issues. Please check your connection and try again later.", controller: self)
                                         }
                                     }

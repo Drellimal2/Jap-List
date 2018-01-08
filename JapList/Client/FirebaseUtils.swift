@@ -130,7 +130,7 @@ static func startUpdateUpload(defaultStore : Firestore, deck : Deck , completion
                 Constants.SnapshotFields.desc : deck.desc!,
                 ], options: SetOptions.merge())
             
-            saveImageToFirebase(photoData: deck.cover! as Data, refId: doc.reference, defaultStore: defaultStore, completionHandler : completionHandler)
+            
             for crd in deck.cards! {
                 let card = crd as! Card
                 doc.reference.collection("cards").document(card.objectID.uriRepresentation().pathComponents[card.objectID.uriRepresentation().pathComponents.count - 1]).setData([
@@ -139,6 +139,7 @@ static func startUpdateUpload(defaultStore : Firestore, deck : Deck , completion
                     Constants.SnapshotFields.trans : card.translation!
                     ])
             }
+            saveImageToFirebase(photoData: deck.cover! as Data, refId: doc.reference, defaultStore: defaultStore, completionHandler : completionHandler)
         })
         if querySnapshot?.documents.count == 0 {
             let docref = defaultStore.collection("public_decks").document()

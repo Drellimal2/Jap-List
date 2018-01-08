@@ -75,10 +75,27 @@ class DiscoverViewController: UIViewController {
     
     func populateDeck(_ reloading : Bool = false){
         if !ReachabilityTest.isConnectedToNetwork() && reloading{
-            self.refreshControl.endRefreshing()
-            alert(title: "Error reloading data", message: "Please check internet connection to reload.", controller: self)
+            
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                performUIUpdatesOnMain {
+                    
+                
+                    if self.onlineDecks.refreshControl != nil{
+                        self.onlineDecks.refreshControl!.endRefreshing()
+                        
+                    } else {
+                        self.refreshControl.endRefreshing()
+
+                    }
+
+                }
+
+            })
+            alert(title: "Error reloading data", message: "Please check network connection.", controller: self,
+                  actions: [okAction])
             return
         }
+        
         
         ActInd.show(onlineDecks!)
         monitorNetworkViaUI(true)

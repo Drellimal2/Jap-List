@@ -84,7 +84,8 @@ func newCard(deck :Deck, kanji: String?,trans : String?, kana : String?, stack :
 }
 
 func getObjectIdUniqueString(obj : NSManagedObject)->String{
-    return obj.objectID.uriRepresentation().pathComponents[obj.objectID.uriRepresentation().pathComponents.count - 1]
+    return String(((obj as! Deck).createdDate?.timeIntervalSince1970)!)
+//    return obj.objectID.uriRepresentation().pathComponents[obj.objectID.uriRepresentation().pathComponents.count - 1]
 }
 
 
