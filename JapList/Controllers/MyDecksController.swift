@@ -108,11 +108,13 @@ class MyDecksController: UIViewController {
             if let err = err {
                 performUIUpdatesOnMain {
                     print("Error getting documents: \(err)")
-                    alert(title: "Error", message: "Could not retrieve saved public decks.", controller: self)
+                    alert(title: "Error", message: "Could not retrieve saved public decks. Please check your connection.", controller: self)
                 }
             } else {
                 performUIUpdatesOnMain {
-                    print(querySnapshot?.metadata.isFromCache ?? "YILES")
+                    if !ReachabilityTest.isConnectedToNetwork(){
+                        alert(title: "Alert", message: "Public decks shownn are cached copies.No connection was found.", controller: self)
+                    }
                     var count = 0
                     for document in querySnapshot!.documents {
                         let a = document.data()
