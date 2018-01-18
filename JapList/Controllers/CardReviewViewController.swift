@@ -87,19 +87,23 @@ class CardReviewViewController: UIViewController {
     }
     
     func setupFlowLayout(){
-        let space:CGFloat = 8.0
-        let dimension = (cardsCollectionView.frame.size.width - (2 * space))
+        let space:CGFloat = 10.0
+        let dimension = view.bounds.size.width - (2 * space)
         cellWidth = dimension
+        
         let height = cardsCollectionView.frame.size.height - (2 * space)
-        flowLayout.minimumInteritemSpacing = space * 2
-        flowLayout.minimumLineSpacing = space * 2
         flowLayout.itemSize = CGSize(width: dimension, height: height )
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: space, bottom: 0, right: space)
+        flowLayout.minimumInteritemSpacing = space 
+        flowLayout.minimumLineSpacing = space * 2
         flowLayout.scrollDirection = .horizontal
     }
     
 }
 
 extension CardReviewViewController : UICollectionViewDelegate, UICollectionViewDataSource{
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if isSnap! {
             return (cardSnapshots?.count)!
@@ -107,6 +111,7 @@ extension CardReviewViewController : UICollectionViewDelegate, UICollectionViewD
             return (cards?.count)!
         }
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -152,8 +157,7 @@ extension CardReviewViewController : UICollectionViewDelegate, UICollectionViewD
         let cell = collectionView.cellForItem(at: indexPath) as! CardReviewCollectionViewCell
         flipCard(cell: cell)
     }
-    
-    
+   
     
     func flipCard(cell : CardReviewCollectionViewCell){
         let transitionOptions = UIViewAnimationOptions.transitionFlipFromLeft
